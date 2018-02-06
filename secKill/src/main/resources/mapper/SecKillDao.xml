@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.secKill.dao.SecKillDao">
+	<update id="reduceNumber">
+		update 
+			seckill
+		set 
+			number = number - 1
+		where
+			seckill_id = #{seckillId}
+		and start_time <![CDATA[<=]]> #{killTime}
+		and end_time <![CDATA[>=]]> #{killTime}
+		and number > 0
+	</update>
+	
+	<select id="queryById" parameterType="long" resultType="SecKill">
+		select <include refid="selectColumns"></include>
+		from seckill
+		where seckill_id = #{seckillId}
+	</select>
+	
+	<select id="queryAll" resultType="SecKill">
+		select <include refid="selectColumns"></include>
+		from seckill
+		order by seckill_id 
+		limit #{offset},#{limit}
+	</select>
+	
+	<sql id="selectColumns">
+		seckill_id,name,number,start_time,end_time,create_time
+	</sql>
+	
+	<!-- mybatis调用存储过程执行秒杀操作 -->
+	<select id="killByProcedure" statementType="CALLABLE">
+		call execute_seckill(
+			#{seckillId,jdbcType=BIGINT,mode=IN},
+			#{userPhone,jdbcType=BIGINT,mode=IN},
+			#{killTime,jdbcType=TIMESTAMP,mode=IN},
+			#{result,jdbcType=INTEGER,mode=OUT}
+		)
+	</select>
+
+</mapper>
