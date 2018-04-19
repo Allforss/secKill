@@ -1,0 +1,26 @@
+subprojects {
+    group = 'com.alice'
+    //version = '1.0.0.SNAPSHOT'
+
+    buildscript {
+        repositories {
+            mavenLocal()
+            maven { url 'http://maven.aliyun.com/nexus/content/groups/public/' }
+            mavenCentral()
+        }
+    }
+
+    repositories {
+        mavenLocal()
+        maven { url 'http://maven.aliyun.com/nexus/content/groups/public/' }
+        mavenCentral()
+    }
+
+    apply plugin: 'java'
+    apply plugin: 'eclipse'
+    apply plugin: 'idea'
+
+
+    sourceCompatibility = 1.8
+    targetCompatibility = 1.8
+}
