@@ -1,0 +1,119 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<th:block th:fragment="header">
+    <title></title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"/>
+    <meta name="renderer" content="webkit">
+    <script>
+        if (window.location.pathname.startsWith("[[@{/login}]]") && window != top.window) {
+            top.window.location.href = window.location.pathname;
+        }
+    </script>
+    <link rel="shortcut icon" th:href="@{/static/pet_icon.png}">
+    <link rel="stylesheet" href="//cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
+    <!--/*<link th:href="@{/static/css/bootstrap.min.css?v=3.3.6}" rel="stylesheet">*/-->
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css"/>
+    <!--/*<link th:href="@{/static/css/font-awesome.min.css?v=4.4.0}" rel="stylesheet">*/-->
+    <!--/*<link rel="stylesheet" href="//cdn.bootcss.com/ionicons/2.0.1/css/ionicons.min.css"/>*/-->
+    <!--/*<link rel="stylesheet" href="//cdn.bootcss.com/toastr.js/2.1.4/toastr.min.css"/>*/-->
+    <link rel="stylesheet" th:href="@{/static/css/plugins/toastr/toastr.min.css}"/>
+    <link rel="stylesheet" href="//cdn.bootcss.com/animate.css/3.5.2/animate.min.css"/>
+    <!--/*<link rel="stylesheet" th:href="@{/static/css/animate.css}"/>*/-->
+    <link th:href="@{/static/css/plugins/toastr/toastr.min.css}" rel="stylesheet">
+    <link th:href="@{/static/css/style.css?v=4.1.0}" rel="stylesheet">
+</th:block>
+<th:block th:fragment="table_header">
+    <link href="//cdn.bootcss.com/bootstrap-table/1.11.1/bootstrap-table.min.css" rel="stylesheet">
+    <!--/*<link th:href="@{/static/css/plugins/bootstrap-table/bootstrap-table.min.css}" rel="stylesheet">*/-->
+</th:block>
+<th:block th:fragment="tree_header">
+    <link th:href="@{/static/css/plugins/jsTree/style.min.css}" rel="stylesheet">
+    <link th:href="@{/static/css/plugins/jqTreeGrid/jquery.treegrid.css}" rel="stylesheet">
+</th:block>
+<th:block th:fragment="ztree_header">
+    <link href="//cdn.bootcss.com/zTree.v3/3.5.33/css/zTreeStyle/zTreeStyle.min.css" rel="stylesheet">
+    <link href="//cdn.bootcss.com/zTree.v3/3.5.33/css/metroStyle/metroStyle.min.css" rel="stylesheet">
+</th:block>
+<th:block th:fragment="note_header">
+    <link th:href="@{/static/css/plugins/summernote/summernote-0.8.8.css}" rel="stylesheet">
+</th:block>
+<th:block th:fragment="chosen_header">
+    <!--/*<link href="//cdn.bootcss.com/chosen/1.8.2/chosen.min.css" rel="stylesheet">*/-->
+    <link th:href="@{/static/css/plugins/chosen/chosen.css}" rel="stylesheet">
+</th:block>
+<th:block th:fragment="date_header">
+    <link href="//cdn.bootcss.com/bootstrap-datepicker/1.7.1/css/bootstrap-datepicker.min.css" rel="stylesheet">
+</th:block>
+<th:block th:fragment="daterange_header">
+    <link href="//cdn.bootcss.com/bootstrap-daterangepicker/2.1.27/daterangepicker.min.css" rel="stylesheet">
+</th:block>
+<th:block th:fragment="footer">
+    <script type="text/javascript" src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
+    <!--/*<script th:src="@{/static/js/jquery.min.js?v=2.1.4}"></script>*/-->
+    <script type="text/javascript" src="//cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <!--/*<script th:src="@{/static/js/bootstrap.min.js?v=3.3.6}"></script>*/-->
+    <script th:src="@{/static/js/plugins/metisMenu/jquery.metisMenu.js}"></script>
+    <script th:src="@{/static/js/plugins/slimscroll/jquery.slimscroll.min.js}"></script>
+    <!--<script src="//cdn.bootcss.com/layer/3.1.0/layer.js"></script>-->
+    <script th:src="@{/static/js/plugins/layer/layer.min.js}"></script>
+    <!--/* 自定义js */-->
+    <script th:src="@{/static/js/app.js?v=4.1.0}"></script>
+    <script th:src="@{/static/js/contabs.js}"></script>
+    <!--/* 第三方插件 */-->
+    <script th:src="@{/static/js/plugins/pace/pace.min.js}"></script>
+    <!--/* vue */-->
+    <script type="text/javascript" th:src="@{/static/js/vue.min.js}"></script>
+    <!--<script th:src="@{/static/js/appjs/oa/webSocket/sockjs.min.js}"></script>-->
+    <!--<script th:src="@{/static/js/appjs/oa/webSocket/stomp.min.js}"></script>-->
+    <!--/* Toastr script */-->
+    <script th:src="@{/static/js/plugins/toastr/toastr.min.js}"></script>
+    <script th:src="@{/static/js/plugins/validate/jquery.validate.min.js}"></script>
+    <script th:src="@{/static/js/plugins/validate/messages_zh.min.js}"></script>
+</th:block>
+<th:block th:fragment="table_footer">
+    <script src="//cdn.bootcss.com/bootstrap-table/1.11.1/bootstrap-table.min.js"></script>
+    <!--/*<script th:src="@{/static/js/plugins/bootstrap-table/bootstrap-table.min.js}"></script>*/-->
+    <script src="//cdn.bootcss.com/bootstrap-table/1.11.1/extensions/mobile/bootstrap-table-mobile.min.js"></script>
+    <!--/*<script th:src="@{/static/js/plugins/bootstrap-table/bootstrap-table-mobile.min.js}"></script>*/-->
+    <script src="//cdn.bootcss.com/bootstrap-table/1.11.1/locale/bootstrap-table-zh-CN.min.js"></script>
+    <!--/*<script th:src="@{/static/js/plugins/bootstrap-table/locale/bootstrap-table-zh-CN.min.js}"></script>*/-->
+    <script src="//cdn.bootcss.com/bootstrap-table/1.11.1/extensions/export/bootstrap-table-export.min.js"></script>
+    <!--/*<script src="//cdn.bootcss.com/TableExport/5.0.0-rc.11/js/tableexport.min.js"></script>*/-->
+    <script th:src="@{/static/js/plugins/bootstrap-table/tableExport.js}"></script>
+    <script>function getHeight() {
+        return $(window).height() - $('.wrapper').outerHeight(true) + 44;
+    }</script>
+
+</th:block>
+<th:block th:fragment="tree_footer">
+    <script th:src="@{/static/js/plugins/jsTree/jstree.min.js}"></script>
+    <script th:src="@{/static/js/plugins/jqTreeGrid/jquery.treegrid.min.js}"></script>
+    <script th:src="@{/static/js/plugins/jqTreeGrid/jquery.treegrid.extension.js}"></script>
+    <script th:src="@{/static/js/plugins/jqTreeGrid/jquery.treegrid.bootstrap3.js}"></script>
+    <script th:src="@{/static/js/plugins/chosen/chosen.jquery.js}"></script>
+</th:block>
+<th:block th:fragment="ztree_footer">
+    <script src="//cdn.bootcss.com/zTree.v3/3.5.33/js/jquery.ztree.core.min.js"></script>
+    <script src="//cdn.bootcss.com/zTree.v3/3.5.33/js/jquery.ztree.excheck.min.js"></script>
+</th:block>
+<th:block th:fragment="note_footer">
+    <script th:src="@{/static/js/plugins/summernote/summernote.js}"></script>
+    <script th:src="@{/static/js/plugins/summernote/summernote-zh-CN.min.js}"></script>
+</th:block>
+<th:block th:fragment="chosen_footer">
+    <!--/*<script src="//cdn.bootcss.com/chosen/1.8.2/chosen.jquery.min.js"></script>*/-->
+    <script th:src="@{/static/js/plugins/chosen/chosen.jquery.js}"></script>
+</th:block>
+<th:block th:fragment="date_footerdate_footer">
+    <script src="//cdn.bootcss.com/moment.js/2.20.1/moment.min.js"></script>
+    <script src="//cdn.bootcss.com/bootstrap-datepicker/1.7.1/js/bootstrap-datepicker.min.js"></script>
+</th:block>
+<th:block th:fragment="daterange_footer">
+    <script src="//cdn.bootcss.com/bootstrap-daterangepicker/2.1.27/daterangepicker.min.js"></script>
+</th:block>
+<th:block th:fragment="konb_footer">
+    <script th:src="@{/static/js/plugins/jQuery-Knob/jquery.knob.min.js}"></script>
+</th:block>
+
+
+

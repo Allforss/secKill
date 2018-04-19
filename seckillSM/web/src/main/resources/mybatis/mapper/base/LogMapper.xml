@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.alice.pet.base.mapper.LogMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="baseResultMap" type="com.alice.pet.base.domain.Log">
+        <!--  -->
+        <id column="FuiId" property="id"/>
+        <!-- 用户id -->
+        <result column="FstrUserId" property="userId"/>
+        <!-- 用户名 -->
+        <result column="FstrUserName" property="userName"/>
+        <!-- 用户操作 -->
+        <result column="FstrOperation" property="operation"/>
+        <!-- 响应时间 -->
+        <result column="FuiTime" property="time"/>
+        <!-- 请求方法 -->
+        <result column="FstrMethod" property="method"/>
+        <!-- 请求参数 -->
+        <result column="FstrParams" property="params"/>
+        <!-- IP地址 -->
+        <result column="FstrIp" property="ip"/>
+        <!-- 创建时间 -->
+        <result column="FstrCreateTime" property="createTime"/>
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="baseColumnList">
+        FuiId, FstrUserId, FstrUserName, FstrOperation, FuiTime, FstrMethod, FstrParams, FstrIp, FstrCreateTime
+    </sql>
+
+    <insert id="insert">
+        INSERT INTO t_log
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="domain.id != null">FuiId,</if>
+            <if test="domain.userId != null">FstrUserId,</if>
+            <if test="domain.userName != null">FstrUserName,</if>
+            <if test="domain.operation != null">FstrOperation,</if>
+            <if test="domain.time != null">FuiTime,</if>
+            <if test="domain.method != null">FstrMethod,</if>
+            <if test="domain.params != null">FstrParams,</if>
+            <if test="domain.ip != null">FstrIp,</if>
+            <if test="domain.createTime != null">FstrCreateTime,</if>
+        </trim>
+        VALUES
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="domain.id != null">#{domain.id},</if>
+            <if test="domain.userId != null">#{domain.userId},</if>
+            <if test="domain.userName != null">#{domain.userName},</if>
+            <if test="domain.operation != null">#{domain.operation},</if>
+            <if test="domain.time != null">#{domain.time},</if>
+            <if test="domain.method != null">#{domain.method},</if>
+            <if test="domain.params != null">#{domain.params},</if>
+            <if test="domain.ip != null">#{domain.ip},</if>
+            <if test="domain.createTime != null">#{domain.createTime},</if>
+        </trim>
+    </insert>
+
+    <insert id="insertList">
+        INSERT INTO t_log(
+        <include refid="baseColumnList"/>
+        )VALUES
+        <foreach collection="domains" item="domain" index="index" separator=",">
+            (
+            #{domain.id},
+            #{domain.userId},
+            #{domain.userName},
+            #{domain.operation},
+            #{domain.time},
+            #{domain.method},
+            #{domain.params},
+            #{domain.ip},
+            #{domain.createTime}
+            )
+        </foreach>
+    </insert>
+
+    <update id="update">
+        UPDATE t_log
+        <set>
+            <if test="domain.userId != null">FstrUserId = #{domain.userId},</if>
+            <if test="domain.userName != null">FstrUserName = #{domain.userName},</if>
+            <if test="domain.operation != null">FstrOperation = #{domain.operation},</if>
+            <if test="domain.time != null">FuiTime = #{domain.time},</if>
+            <if test="domain.method != null">FstrMethod = #{domain.method},</if>
+            <if test="domain.params != null">FstrParams = #{domain.params},</if>
+            <if test="domain.ip != null">FstrIp = #{domain.ip},</if>
+            <if test="domain.createTime != null">FstrCreateTime = #{domain.createTime},</if>
+        </set>
+        WHERE FuiId = #{domain.id}
+    </update>
+
+    <select id="select" resultMap="baseResultMap">
+        SELECT
+        <include refid="baseColumnList"/>
+        FROM t_log
+        <where>
+            <if test="domain.id != null">AND FuiId = #{domain.id}</if>
+            <if test="domain.userId != null">AND FstrUserId = #{domain.userId}</if>
+            <if test="domain.userName != null">AND FstrUserName = #{domain.userName}</if>
+            <if test="domain.operation != null">AND FstrOperation = #{domain.operation}</if>
+            <if test="domain.time != null">AND FuiTime = #{domain.time}</if>
+            <if test="domain.method != null">AND FstrMethod = #{domain.method}</if>
+            <if test="domain.params != null">AND FstrParams = #{domain.params}</if>
+            <if test="domain.ip != null">AND FstrIp = #{domain.ip}</if>
+            <if test="domain.createTime != null">AND FstrCreateTime = #{domain.createTime}</if>
+        </where>
+    </select>
+
+    <select id="selectList" resultMap="baseResultMap">
+        SELECT
+        FuiId,
+        FstrUserId,
+        FstrUserName,
+        FstrOperation,
+        FuiTime,
+        FstrMethod,
+        FstrIp,
+        FstrCreateTime
+        FROM t_log
+        <if test="domain != null">
+            <where>
+                <if test="domain.id != null">AND FuiId = #{domain.id}</if>
+                <if test="domain.userId != null">AND FuiUserId = #{domain.userId}</if>
+                <if test="domain.userName != null">AND FstrUserName = #{domain.userName}</if>
+                <if test="domain.operation != null">AND FstrOperation = #{domain.operation}</if>
+                <if test="domain.time != null">AND FuiTime = #{domain.time}</if>
+                <if test="domain.method != null">AND FstrMethod = #{domain.method}</if>
+                <if test="domain.params != null">AND FstrParams = #{domain.params}</if>
+                <if test="domain.ip != null">AND FstrIp = #{domain.ip}</if>
+                <if test="domain.createTime != null">AND FstrCreateTime = #{domain.createTime}</if>
+            </where>
+        </if>
+    </select>
+
+</mapper>

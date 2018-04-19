@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.alice.pet.base.mapper.RoleMenuMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="baseResultMap" type="com.alice.pet.base.domain.RoleMenu">
+        <!--  -->
+        <id column="FuiId" property="id"/>
+        <!-- 角色编号 -->
+        <result column="FstrRoleId" property="roleId"/>
+        <!-- 菜单编号 -->
+        <result column="FstrMenuId" property="menuId"/>
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="baseColumnList">
+        FuiId,FstrRoleId,FstrMenuId
+    </sql>
+
+    <insert id="insert">
+        INSERT INTO t_role_menu
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="domain.id != null">FuiId,</if>
+            <if test="domain.roleId != null">FstrRoleId,</if>
+            <if test="domain.menuId != null">FstrMenuId,</if>
+        </trim>
+        VALUES
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="domain.id != null">#{domain.id},</if>
+            <if test="domain.roleId != null">#{domain.roleId},</if>
+            <if test="domain.menuId != null">#{domain.menuId},</if>
+        </trim>
+    </insert>
+
+    <insert id="insertList">
+        INSERT INTO t_role_menu(
+        <include refid="baseColumnList"/>
+        )VALUES
+        <foreach collection="domains" item="domain" index="index" separator=",">
+            (
+                #{domain.id},
+                #{domain.roleId},
+                #{domain.menuId}
+            )
+        </foreach>
+    </insert>
+
+    <update id="update">
+        UPDATE t_role_menu
+        <set>
+            <if test="domain.roleId != null">FstrRoleId = #{domain.roleId},</if>
+            <if test="domain.menuId != null">FstrMenuId = #{domain.menuId},</if>
+        </set>
+        WHERE FuiId = #{domain.id}
+    </update>
+
+    <select id="select" resultMap="baseResultMap">
+        SELECT
+        <include refid="baseColumnList"/>
+        FROM t_role_menu
+        <where>
+            <if test="domain.id != null"> AND FuiId = #{domain.id}</if>
+            <if test="domain.roleId != null"> AND FstrRoleId = #{domain.roleId}</if>
+            <if test="domain.menuId != null"> AND FstrMenuId = #{domain.menuId}</if>
+        </where>
+    </select>
+
+</mapper>

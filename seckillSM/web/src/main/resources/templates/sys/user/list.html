@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <th:block th:include="include :: header"/>
+    <th:block th:include="include :: table_header"/>
+</head>
+<body class="gray-bg">
+<div class="wrapper wrapper-content">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-content">
+                    <div id="toolbar" class="fixed-table-toolbar">
+                        <button shiro:hasPermission="sys:user:add" type="button"
+                                class="btn btn-primary" onclick="add()">
+                            <i class="fa fa-plus" aria-hidden="true"></i> 添加
+                        </button>
+                        <button shiro:hasPermission="sys:user:batchRemove" type="button"
+                                class="btn btn-danger" onclick="batchRemove()">
+                            <i class="fa fa-trash" aria-hidden="true"></i> 删除
+                        </button>
+                    </div>
+                    <table id="exampleTable" data-mobile-responsive="true">
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div>
+        <script type="text/javascript">
+            var s_edit_h = 'hidden';
+            var s_remove_h = 'hidden';
+            var s_resetPwd_h = 'hidden';
+        </script>
+    </div>
+    <div shiro:hasPermission="sys:user:edit">
+        <script type="text/javascript">
+            s_edit_h = '';
+        </script>
+    </div>
+    <div shiro:hasPermission="sys:user:remove">
+        <script type="text/javascript">
+            var s_remove_h = '';
+        </script>
+    </div>
+    <div shiro:hasPermission="sys:user:resetPwd">
+        <script type="text/javascript">
+            var s_resetPwd_h = '';
+        </script>
+    </div>
+</div>
+<th:block th:include="include :: footer"/>
+<th:block th:include="include :: table_footer"/>
+<script type="text/javascript" th:src="@{/static/js/appjs/sys/user/list.js}"></script>
+</body>
+</html>

@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.alice.pet.base.mapper.DictMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="baseResultMap" type="com.alice.pet.base.domain.Dict">
+        <!-- 编号 -->
+        <id column="FuiId" property="id"/>
+        <!-- 类型 -->
+        <result column="FstrType" property="type"/>
+        <!-- 标签名 -->
+        <result column="FstrName" property="name"/>
+        <!-- 数据值 -->
+        <result column="FstrValue" property="value"/>
+        <!-- 描述 -->
+        <result column="FstrDescription" property="description"/>
+        <!-- 排序（升序） -->
+        <result column="FuiSort" property="sort"/>
+        <!-- 创建者 -->
+        <result column="FstrCreateBy" property="createBy"/>
+        <!-- 更新者 -->
+        <result column="FstrUpdateBy" property="updateBy"/>
+        <!-- 备注信息 -->
+        <result column="FstrRemarks" property="remarks"/>
+        <!-- 删除标记 -->
+        <result column="FuiDelFlag" property="delFlag"/>
+        <!-- 创建时间 -->
+        <result column="FstrCreateTime" property="createTime"/>
+        <!-- 更新时间 -->
+        <result column="FstrUpdateTime" property="updateTime"/>
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="baseColumnList">
+        FuiId, FstrType, FstrName, FstrValue, FstrDescription, FuiSort, FstrCreateBy, FstrUpdateBy, FstrRemarks, FuiDelFlag, FstrCreateTime, FstrUpdateTime
+    </sql>
+
+    <insert id="insert">
+        INSERT INTO t_dict
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="domain.id != null">FuiId,</if>
+            <if test="domain.type != null">FstrType,</if>
+            <if test="domain.name != null">FstrName,</if>
+            <if test="domain.value != null">FstrValue,</if>
+            <if test="domain.description != null">FstrDescription,</if>
+            <if test="domain.sort != null">FuiSort,</if>
+            <if test="domain.createBy != null">FstrCreateBy,</if>
+            <if test="domain.updateBy != null">FstrUpdateBy,</if>
+            <if test="domain.remarks != null">FstrRemarks,</if>
+            <if test="domain.delFlag != null">FuiDelFlag,</if>
+            <if test="domain.createTime != null">FstrCreateTime,</if>
+            <if test="domain.updateTime != null">FstrUpdateTime,</if>
+        </trim>
+        VALUES
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="domain.id != null">#{domain.id},</if>
+            <if test="domain.type != null">#{domain.type},</if>
+            <if test="domain.name != null">#{domain.name},</if>
+            <if test="domain.value != null">#{domain.value},</if>
+            <if test="domain.description != null">#{domain.description},</if>
+            <if test="domain.sort != null">#{domain.sort},</if>
+            <if test="domain.createBy != null">#{domain.createBy},</if>
+            <if test="domain.updateBy != null">#{domain.updateBy},</if>
+            <if test="domain.remarks != null">#{domain.remarks},</if>
+            <if test="domain.delFlag != null">#{domain.delFlag},</if>
+            <if test="domain.createTime != null">#{domain.createTime},</if>
+            <if test="domain.updateTime != null">#{domain.updateTime},</if>
+        </trim>
+    </insert>
+
+    <insert id="insertList">
+        INSERT INTO t_dict(
+        <include refid="baseColumnList"/>
+        )VALUES
+        <foreach collection="domains" item="domain" index="index" separator=",">
+            (
+            #{domain.id},
+            #{domain.type},
+            #{domain.name},
+            #{domain.value},
+            #{domain.description},
+            #{domain.sort},
+            #{domain.createBy},
+            #{domain.updateBy},
+            #{domain.remarks},
+            #{domain.delFlag},
+            #{domain.createTime},
+            #{domain.updateTime}
+            )
+        </foreach>
+    </insert>
+
+    <update id="update">
+        UPDATE t_dict
+        <set>
+            <if test="domain.type != null">FstrType = #{domain.type},</if>
+            <if test="domain.name != null">FstrName = #{domain.name},</if>
+            <if test="domain.value != null">FstrValue = #{domain.value},</if>
+            <if test="domain.description != null">FstrDescription = #{domain.description},</if>
+            <if test="domain.sort != null">FuiSort = #{domain.sort},</if>
+            <if test="domain.createBy != null">FstrCreateBy = #{domain.createBy},</if>
+            <if test="domain.updateBy != null">FstrUpdateBy = #{domain.updateBy},</if>
+            <if test="domain.remarks != null">FstrRemarks = #{domain.remarks},</if>
+            <if test="domain.delFlag != null">FuiDelFlag = #{domain.delFlag},</if>
+            <if test="domain.createTime != null">FstrCreateTime = #{domain.createTime},</if>
+            <if test="domain.updateTime != null">FstrUpdateTime = #{domain.updateTime},</if>
+        </set>
+        WHERE FuiId = #{domain.id}
+    </update>
+
+    <select id="select" resultMap="baseResultMap">
+        SELECT
+        <include refid="baseColumnList"/>
+        FROM t_dict
+        <where>
+            <if test="domain.id != null">AND FuiId = #{domain.id}</if>
+            <if test="domain.type != null">AND FstrType = #{domain.type}</if>
+            <if test="domain.name != null">AND FstrName = #{domain.name}</if>
+            <if test="domain.value != null">AND FstrValue = #{domain.value}</if>
+            <if test="domain.description != null">AND FstrDescription = #{domain.description}</if>
+            <if test="domain.sort != null">AND FuiSort = #{domain.sort}</if>
+            <if test="domain.createBy != null">AND FstrCreateBy = #{domain.createBy}</if>
+            <if test="domain.updateBy != null">AND FstrUpdateBy = #{domain.updateBy}</if>
+            <if test="domain.remarks != null">AND FstrRemarks = #{domain.remarks}</if>
+            <if test="domain.delFlag != null">AND FuiDelFlag = #{domain.delFlag}</if>
+            <if test="domain.createTime != null">AND FstrCreateTime = #{domain.createTime}</if>
+            <if test="domain.updateTime != null">AND FstrUpdateTime = #{domain.updateTime}</if>
+        </where>
+    </select>
+
+    <select id="findAllType" resultMap="baseResultMap">
+        SELECT DISTINCT
+            FstrType,
+            FstrDescription
+        FROM t_dict
+    </select>
+
+</mapper>

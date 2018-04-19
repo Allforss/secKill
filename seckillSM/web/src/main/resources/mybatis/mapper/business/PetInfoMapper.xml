@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.alice.pet.business.mapper.PetInfoMapper">
+    <resultMap id="BaseResultMap" type="com.alice.pet.business.domain.PetInfo">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="name" property="name" jdbcType="VARCHAR"/>
+        <result column="sex" property="sex" jdbcType="BIT"/>
+        <result column="weight" property="weight" jdbcType="INTEGER"/>
+        <result column="health" property="health" jdbcType="INTEGER"/>
+        <result column="breed" property="breed" jdbcType="VARCHAR"/>
+        <result column="birthday" property="birthday" jdbcType="TIMESTAMP"/>
+        <result column="ownerid" property="ownerid" jdbcType="INTEGER"/>
+        <result column="age" property="age" jdbcType="INTEGER"/>
+        <result column="createtime" property="createtime" jdbcType="TIMESTAMP"/>
+        <result column="updatetime" property="updatetime" jdbcType="TIMESTAMP"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    id, name, sex, weight, health, breed, birthday, ownerid, age, createtime, updatetime
+  </sql>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select
+        <include refid="Base_Column_List"/>
+        from pet_info
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+
+    <select id="selectAll" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from pet_info
+    </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from pet_info
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+    <insert id="insert" parameterType="com.alice.pet.business.domain.PetInfo">
+    insert into pet_info (id, name, sex, weight, 
+      health, breed, birthday, 
+      ownerid, age, createtime, 
+      updatetime)
+    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{sex,jdbcType=BIT}, #{weight,jdbcType=INTEGER}, 
+      #{health,jdbcType=INTEGER}, #{breed,jdbcType=VARCHAR}, #{birthday,jdbcType=TIMESTAMP}, 
+      #{ownerid,jdbcType=INTEGER}, #{age,jdbcType=INTEGER}, now(),
+      now())
+  </insert>
+    <insert id="insertSelective" parameterType="com.alice.pet.business.domain.PetInfo">
+        insert into pet_info
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            name,
+            sex,
+            weight,
+            health,
+            breed,
+            birthday,
+            <if test="ownerid != null">
+                ownerid,
+            </if>
+            age,
+            createtime,
+            updatetime,
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            #{name,jdbcType=VARCHAR},
+            #{sex,jdbcType=BIT},
+            #{weight,jdbcType=INTEGER},
+            #{health,jdbcType=INTEGER},
+            #{breed,jdbcType=VARCHAR},
+            #{birthday,jdbcType=TIMESTAMP},
+            <if test="ownerid != null">
+                #{ownerid,jdbcType=INTEGER},
+            </if>
+            #{age,jdbcType=INTEGER},
+            now(),
+            now()
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.alice.pet.business.domain.PetInfo">
+        update pet_info
+        <set>
+            <if test="name != null">
+                name = #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="sex != null">
+                sex = #{sex,jdbcType=BIT},
+            </if>
+            <if test="weight != null">
+                weight = #{weight,jdbcType=INTEGER},
+            </if>
+            <if test="health != null">
+                health = #{health,jdbcType=INTEGER},
+            </if>
+            <if test="breed != null">
+                breed = #{breed,jdbcType=VARCHAR},
+            </if>
+            <if test="birthday != null">
+                birthday = #{birthday,jdbcType=TIMESTAMP},
+            </if>
+            <if test="ownerid != null">
+                ownerid = #{ownerid,jdbcType=INTEGER},
+            </if>
+            <if test="age != null">
+                age = #{age,jdbcType=INTEGER},
+            </if>
+            updatetime=now(),
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.alice.pet.business.domain.PetInfo">
+    update pet_info
+    set name = #{name,jdbcType=VARCHAR},
+      sex = #{sex,jdbcType=BIT},
+      weight = #{weight,jdbcType=INTEGER},
+      health = #{health,jdbcType=INTEGER},
+      breed = #{breed,jdbcType=VARCHAR},
+      birthday = #{birthday,jdbcType=TIMESTAMP},
+      ownerid = #{ownerid,jdbcType=INTEGER},
+      age = #{age,jdbcType=INTEGER},
+      updatetime = now()
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+    <delete id="deleteBatch" parameterType="java.lang.Integer">
+        delete from pet_info
+        where id in
+        <foreach item="ids" collection="array" open="(" separator="," close=")">
+            #{ids}
+        </foreach>
+    </delete>
+</mapper>

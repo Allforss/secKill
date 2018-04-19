@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <th:block th:include="include :: header"/>
+    <th:block th:include="include :: table_header"/>
+</head>
+<body class="gray-bg">
+<div class="wrapper wrapper-content ">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-content">
+                    <div id="toolbar" class="fixed-table-toolbar">
+                        <!--<button class="btn btn-success" onclick="reLoad()">查询</button>-->
+                    </div>
+                    <table id="exampleTable" data-mobile-responsive="true"></table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<th:block th:include="include :: footer"/>
+<th:block th:include="include :: table_footer"/>
+<script type="text/javascript" th:src="@{/static/js/appjs/sys/online/online.js}"></script>
+</body>
+</html>

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <th:block th:include="include :: chosen_header"/>
+    <th:block th:include="include :: header"/>
+    <th:block th:include="include :: table_header"/>
+</head>
+<body class="gray-bg">
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="col-sm-12">
+        <div class="ibox">
+            <div class="ibox-body">
+                <div class="fixed-table-toolbar">
+                    <div class="columns pull-left">
+                        <button type="button" class="btn  btn-danger"
+                                onclick="batchRemove()">
+                            <i class="fa fa-trash" aria-hidden="true"></i>删除
+                        </button>
+                    </div>
+                    <div class="columns pull-right" role="group">
+                        <button class="btn btn-success" onclick="reLoad()">
+                            <i class="fa fa-search" aria-hidden="true"></i>查询
+                        </button>
+                    </div>
+                    <div class="pull-right search col-md-2">
+                        <!--<input id="searchOperation" type="text" class="form-control" placeholder="操作">-->
+                        <select id="searchOperation" data-placeholder="选择操作" class="form-control chosen-select" style="width: 100%">
+                            <option value="">选择操作</option>
+                        </select>
+                    </div>
+                    <div class="pull-right search col-md-2 nopadding">
+                        <input id="searchUsername" type="text" class="form-control" placeholder="用户">
+                    </div>
+                </div>
+                <table id="exampleTable" data-mobile-responsive="true">
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<th:block th:include="include :: footer"/>
+<th:block th:include="include :: table_footer"/>
+<th:block th:include="include :: chosen_footer"/>
+<script type="text/javascript" th:src="@{/static/js/appjs/sys/log/list.js}"></script>
+</body>
+</html>
