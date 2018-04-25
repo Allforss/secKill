@@ -1,3 +1,4 @@
 rootProject.name = 'seckillSM'
 include 'seckill-web'
 include 'eureka-server'
+include 'seckill-server'

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sukidesu.server.mapper.SeckillGoodsMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="baseResultMap" type="com.sukidesu.server.domain.SeckillGoods">
+        <!-- 商品id -->
+        <id column="FuiGoodsId" property="goodsId"/>
+        <!-- 商品名 -->
+        <result column="FstrName" property="name"/>
+        <!-- 库存-->
+        <result column="FuiNumber" property="number"/>
+        <!-- 价格-->
+        <result column="FuiPrice" property="price"/>
+        <!-- 描述-->
+        <result column="FstrDescription" property="description"/>
+        <!-- 开始时间-->
+        <result column="FstrStartTime" property="startTime"/>
+        <!-- 结束时间-->
+        <result column="FstrEndTime" property="endTime"/>
+        <!-- 创建时间-->
+        <result column="FstrCreateTime" property="createTime"/>
+        <!-- 更新时间-->
+        <result column="FstrUpdateTime" property="updateTime"/>
+    </resultMap>
+
+    <sql id="baseColumns">
+        FuiGoodsId, FstrName, FuiNumber, FuiPrice, FstrDescription
+        FstrStartTime, FstrEndTime, FstrCreateTime, FstrUpdateTime
+    </sql>
+
+    <select id="select" resultMap="baseResultMap">
+
+
+    </select>
+
+
+
+</mapper>

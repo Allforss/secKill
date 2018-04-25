@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sukidesu.server.mapper.SeckillOrderMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="baseResultMap" type="com.sukidesu.server.domain.SeckillOrder">
+        <!-- 订单id -->
+        <id column="FuiOrderId" property="orderId"/>
+        <!-- 商品id -->
+        <result column="FuiGoodsId" property="goodsId"/>
+        <!-- 用户id -->
+        <result column="FstrUserId" property="userId"/>
+        <!-- 订单状态 -->
+        <result column="FuiOrderState" property="orderState"/>
+        <!-- 创建时间 -->
+        <result column="FstrCreateTime" property="createTime"/>
+        <!-- 更新时间 -->
+        <result column="FstrUpdateTime" property="updateTime"/>
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="baseColumnList">
+      FuiOrderId, FuiGoodsId, FstrUserId, FuiOrderState, FstrCreateTime, FstrUpdateTime
+    </sql>
+
+
+</mapper>

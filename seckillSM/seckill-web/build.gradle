@@ -51,8 +51,8 @@ dependencies {
 
     compile('org.springframework.boot:spring-boot-starter-aop')
     compile('org.springframework.boot:spring-boot-starter-data-redis')
-    compile('org.springframework.boot:spring-boot-starter-validation')
     compile('org.springframework.cloud:spring-cloud-starter-feign')
+    compile('org.springframework.boot:spring-boot-starter-validation')
     compile('io.github.openfeign.form:feign-form-spring:3.0.3')
 
     runtime('mysql:mysql-connector-java')
