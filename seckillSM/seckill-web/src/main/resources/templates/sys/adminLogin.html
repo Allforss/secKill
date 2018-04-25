@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:include="include :: header"/>
+    <link rel="stylesheet" th:href="@{/static/css/login.css}">
+</head>
+<body>
+<script type="text/javascript" id="c_n_script" th:src="@{/static/js/canvas-nest.min.js}"
+        color="0,227,244" opacity="1.0" zindex="-2" count="200"></script>
+<div id="loginPanel" style="margin-top: 150px; width: 100%;">
+    <div class="row">
+        <div class="col-sm-2"></div>
+        <div class="col-sm-3 animated fadeInDown" style="color: #fff" id="system-info">
+            <h1><b>商品秒杀系统</b></h1>
+            <h4><b>Commodity Second Killing System</b></h4>
+        </div>
+        <div class="col-sm-2"></div>
+        <div class="col-sm-5">
+            <form id="loginForm" method="post" th:action="@{/login}" style="width: 400px;"
+                  class="form-horizontal form-label-left">
+                <input type="hidden" name="loginUserType" value="manager">
+                <section class="widget">
+                    <span style="padding-bottom: 20px; font-size: 20px; font-weight: bold;">Login To System</span>
+                    <fieldset style="padding: 15px 10px 0 10px;">
+                        <div class="form-group">
+                            <div class="input-group input-group-lg">
+                                <span class="input-group-addon"><i class="fa fa-user"></i></span>
+                                <input id="account" type="text" name="account"
+                                       class="form-control input-lg input-transparent"
+                                       placeholder="Your Account"/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="input-group input-group-lg">
+                                <span class="input-group-addon"><i class="fa fa-lock"></i></span>
+                                <input id="password" type="password" name="password"
+                                       class="form-control input-lg input-transparent"
+                                       placeholder="Your Password"/>
+                            </div>
+                        </div>
+                    </fieldset>
+                    <div class="form-actions" style="background-color: rgba(90, 95, 99, 0.5);">
+                        <button type="submit" class="btn btn-block btn-lg btn-danger">
+                            <span class="small-circle"><i class="fa fa-caret-right"></i></span>
+                            <small>Sign In</small>
+                        </button>
+                    </div>
+                </section>
+            </form>
+        </div>
+    </div>
+</div>
+<div th:include="include :: footer"></div>
+<script th:if="${show}">
+    $(function () {
+        toastr.error("[[${msg}]]");
+    });
+</script>
+<script>
+    $(function () {
+        var icon = "<i class='fa fa-times-circle'></i> ";
+        $("#loginForm").validate({
+            rules: {
+                account: {
+                    required: true
+                },
+                password: {
+                    required: true
+                }
+            },
+            messages: {
+                account: {
+                    required: icon + "请输入您的用户名"
+                },
+                password: {
+                    required: icon + "请输入您的密码"
+                }
+            },
+            errorPlacement: function (error, element) { //指定错误信息位置
+                if (element.is(':radio') || element.is(':checkbox')) { //如果是radio或checkbox
+                    var eid = element.attr('name'); //获取元素的name属性
+                    error.appendTo(element.parent()); //将错误信息添加当前元素的父结点后面
+                } else {
+                    error.insertAfter(element);
+                }
+            }
+        });
+    });
+</script>
+</body>
+</html>

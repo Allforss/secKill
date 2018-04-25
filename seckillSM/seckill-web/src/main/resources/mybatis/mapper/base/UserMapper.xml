@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sukidesu.seckill.base.mapper.UserMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="baseResultMap" type="com.sukidesu.seckill.base.domain.User">
+        <!--  -->
+        <id column="FuiId" property="id"/>
+        <!-- 编号 -->
+        <result column="FstrUserId" property="userId"/>
+        <!-- 姓名 -->
+        <result column="FstrName" property="name"/>
+        <!-- 账号 -->
+        <result column="FstrAccount" property="account"/>
+        <!-- 密码 -->
+        <result column="FstrPassword" property="password"/>
+        <!-- 邮箱 -->
+        <result column="FstrEmail" property="email"/>
+        <!--电话-->
+        <result column="FstrUserPhone" property="userPhone"/>
+        <!--地址-->
+        <result column="FstrAddress" property="address"/>
+        <!-- 状态 0:禁用，1:正常 -->
+        <result column="FuiState" property="state"/>
+        <!-- 创建时间 -->
+        <result column="FstrCreateTime" property="createTime"/>
+        <!-- 更新时间 -->
+        <result column="FstrUpdateTime" property="updateTime"/>
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="baseColumnList">
+        FuiId, FstrUserId, FstrName, FstrAccount, FstrPassword, FstrEmail, FstrUserPhone,
+        FstrAddress, FuiState, FstrCreateTime, FstrUpdateTime
+    </sql>
+
+    <insert id="insert">
+        INSERT INTO t_user
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="domain.userId != null">FstrUserId,</if>
+            <if test="domain.name != null">FstrName,</if>
+            <if test="domain.account != null">FstrAccount,</if>
+            <if test="domain.password != null">FstrPassword,</if>
+            <if test="domain.email != null">FstrEmail,</if>
+            <if test="domain.userPhone != null">FstrUserPhone,</if>
+            <if test="domain.address != null">FstrAddress,</if>
+            <if test="domain.state != null">FuiState,</if>
+            <if test="domain.createTime != null">FstrCreateTime,</if>
+            <if test="domain.updateTime != null">FstrUpdateTime</if>
+        </trim>
+        VALUES
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="domain.userId != null">#{domain.userId},</if>
+            <if test="domain.name != null">#{domain.name},</if>
+            <if test="domain.account != null">#{domain.account},</if>
+            <if test="domain.password != null">#{domain.password},</if>
+            <if test="domain.email != null">#{domain.email},</if>
+            <if test="domain.userPhone != null">#{domain.userPhone},</if>
+            <if test="domain.address != null">#{domain.address},</if>
+            <if test="domain.state != null">#{domain.state},</if>
+            <if test="domain.createTime != null">#{domain.createTime},</if>
+            <if test="domain.updateTime != null">#{domain.updateTime}</if>
+        </trim>
+    </insert>
+
+    <insert id="insertList">
+        INSERT INTO t_user(
+        <include refid="baseColumnList"/>
+        )VALUES
+        <foreach collection="domains" item="domain" index="index" separator=",">
+            (
+            #{domain.id},
+            #{domain.userId},
+            #{domain.name},
+            #{domain.account},
+            #{domain.password},
+            #{domain.email},
+            #{domain.userPhone},
+            #{domain.address},
+            #{domain.state},
+            #{domain.createTime},
+            #{domain.updateTime}
+            )
+        </foreach>
+    </insert>
+
+    <update id="update">
+        UPDATE t_user
+        <set>
+            <if test="domain.userId != null">FstrUserId = #{domain.userId},</if>
+            <if test="domain.name != null">FstrName = #{domain.name},</if>
+            <if test="domain.account != null">FstrAccount = #{domain.account},</if>
+            <if test="domain.password != null">Fstrpassword = #{domain.password},</if>
+            <if test="domain.email != null">FstrEmail = #{domain.email},</if>
+            <if test="domain.userPhone != null">FstrUserPhone = #{domain.userPhone},</if>
+            <if test="domain.address != null">FstrAddress = #{domain.address},</if>
+            <if test="domain.state != null">FuiState = #{domain.state},</if>
+            <if test="domain.createTime != null">FstrCreateTime = #{domain.createTime},</if>
+            <if test="domain.updateTime != null">FstrUpdateTime = #{domain.updateTime},</if>
+        </set>
+        WHERE FuiId = #{domain.id}
+    </update>
+
+    <select id="select" resultMap="baseResultMap">
+        SELECT
+        <include refid="baseColumnList"/>
+        FROM t_user
+        <where>
+            <if test="domain.id != null">AND FuiId = #{domain.id}</if>
+            <if test="domain.userId != null">AND FstrUserId = #{domain.userId}</if>
+            <if test="domain.name != null">AND FstrName = #{domain.name}</if>
+            <if test="domain.account != null">AND FstrAccount = #{domain.account}</if>
+            <if test="domain.password != null">AND Fstrpassword = #{domain.password}</if>
+            <if test="domain.email != null">AND FstrEmail = #{domain.email}</if>
+            <if test="domain.userPhone != null">AND FstrUserPhone = #{domain.userPhone}</if>
+            <if test="domain.address != null">AND FstrAddress = #{domain.address}</if>
+            <if test="domain.state != null">AND FuiState = #{domain.state}</if>
+            <if test="domain.createTime != null">AND FstrCreateTime = #{domain.createTime}</if>
+            <if test="domain.updateTime != null">AND FstrUpdateTime = #{domain.updateTime}</if>
+        </where>
+    </select>
+
+    <select id="getBasicForLogin" resultMap="baseResultMap">
+        SELECT
+            FuiId,
+            FstrUserId,
+            FuiState,
+            FstrPassword
+        FROM t_user
+        WHERE FstrAccount = #{account}
+    </select>
+
+</mapper>

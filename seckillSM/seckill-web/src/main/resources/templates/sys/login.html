@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:include="include :: header"/>
+    <link rel="stylesheet" th:href="@{/static/css/login.css}">
+</head>
+<body>
+<div id="loginPanel" style="margin-top: 150px; width: 100%;">
+    <div class="row">
+        <div class="col-sm-2"></div>
+        <div class="col-sm-3" style="color: #fff">
+            <h1><b>商品秒杀系统</b></h1>
+            <h4><b>Commodity Second Killing System</b></h4>
+        </div>
+        <div class="col-sm-2 animated fadeInDown"></div>
+        <div class="col-sm-5">
+            <form id="loginForm" method="post" th:action="@{/login}" style="width: 400px;"
+                  class="form-horizontal form-label-left">
+                <input type="hidden" name="loginUserType" value="sso">
+                <section class="widget">
+                    <span style="padding-bottom: 20px; font-size: 20px; font-weight: bold;">Login To System</span>
+                    <fieldset style="padding: 15px 10px 0 10px;">
+                        <div class="form-group">
+                            <div class="input-group input-group-lg">
+                                <span class="input-group-addon"><i class="fa fa-user"></i></span>
+                                <input id="account" type="text" name="account"
+                                       class="form-control input-lg input-transparent"
+                                       placeholder="Your Account"/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="input-group input-group-lg">
+                                <span class="input-group-addon"><i class="fa fa-lock"></i></span>
+                                <input id="password" type="password" name="password"
+                                       class="form-control input-lg input-transparent"
+                                       placeholder="Your Password"/>
+                            </div>
+                        </div>
+                        <div  class="form-group">
+                            <div class="col-sm-8 col-sm-offset-4">
+                                <span><a th:href="@{/sys/user/register}">新用户注册</a></span>
+                            </div>
+                        </div>
+                        <!--<div class="form-group">-->
+                            <!--<div class="input-group input-group-lg">-->
+                                <!--<span class="input-group-addon"><i class="fa fa-user-o"></i></span>-->
+                                <!--<input id="captcha" type="text" name="captcha"-->
+                                       <!--class="form-control input-lg input-transparent"-->
+                                       <!--placeholder="Send Captcha"/>-->
+                                <!--<span class="input-group-btn">-->
+                                    <!--<button id="captchaBtn" class="btn btn-success"-->
+                                            <!--style="border: 0;background-color: rgba(92, 155, 79, 0.7);" type="button">发送验证码</button>-->
+                                <!--</span>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                    </fieldset>
+                    <div class="form-actions" style="background-color: rgba(90, 95, 99, 0.5);">
+                        <button type="submit" class="btn btn-block btn-lg btn-danger">
+                            <span class="small-circle"><i class="fa fa-caret-right"></i></span>
+                            <small>Sign In</small>
+                        </button>
+                    </div>
+                </section>
+            </form>
+        </div>
+    </div>
+</div>
+<div id="background" class="blur"
+     style="width: 100%; height: 100%; top: 0; left: 0; margin: 0; padding: 0; position: absolute; z-index: -1;"></div>
+<script type="text/javascript" th:src="@{/static/js/plugins/three/three.min.js}"></script>
+<script type="text/javascript">
+    var SEPARATION = 100, AMOUNTX = 50, AMOUNTY = 50;
+    var container;
+    var camera, scene, renderer;
+    var particles, particle, count = 0;
+    var mouseX = 0, mouseY = 0;
+    var windowHalfX = window.innerWidth / 2;
+    var windowHalfY = window.innerHeight / 2;
+    init();
+    animate();
+
+    function init() {
+        container = document.getElementById("background");
+        camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 1, 10000);
+        camera.position.z = 1000;
+        scene = new THREE.Scene();
+        particles = [];
+        var PI2 = Math.PI * 2;
+        var material = new THREE.ParticleCanvasMaterial({
+            color: 0x5781a2,
+            program: function (context) {
+
+                context.beginPath();
+                context.arc(0, 0, 1, 0, PI2, true);
+                context.fill();
+
+            }
+        });
+        var i = 0;
+        for (var ix = 0; ix < AMOUNTX; ix++) {
+            for (var iy = 0; iy < AMOUNTY; iy++) {
+                particle = particles[i++] = new THREE.Particle(material);
+                particle.position.x = ix * SEPARATION - ((AMOUNTX * SEPARATION) / 2);
+                particle.position.z = iy * SEPARATION - ((AMOUNTY * SEPARATION) / 2);
+                scene.add(particle);
+            }
+        }
+        renderer = new THREE.CanvasRenderer();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        container.appendChild(renderer.domElement);
+        document.addEventListener('mousemove', onDocumentMouseMove, false);
+        document.addEventListener('touchstart', onDocumentTouchStart, false);
+        document.addEventListener('touchmove', onDocumentTouchMove, false);
+        window.addEventListener('resize', onWindowResize, false);
+    }
+
+    function onWindowResize() {
+        windowHalfX = window.innerWidth / 2;
+        windowHalfY = window.innerHeight / 2;
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+    }
+
+    function onDocumentMouseMove(event) {
+        mouseX = event.clientX - windowHalfX;
+        mouseY = event.clientY - windowHalfY;
+    }
+
+    function onDocumentTouchStart(event) {
+        if (event.touches.length === 1) {
+            event.preventDefault();
+            mouseX = event.touches[0].pageX - windowHalfX;
+            mouseY = event.touches[0].pageY - windowHalfY;
+        }
+    }
+
+    function onDocumentTouchMove(event) {
+        if (event.touches.length === 1) {
+            event.preventDefault();
+            mouseX = event.touches[0].pageX - windowHalfX;
+            mouseY = event.touches[0].pageY - windowHalfY;
+        }
+    }
+
+    function animate() {
+        requestAnimationFrame(animate);
+        render();
+    }
+
+    function render() {
+        camera.position.x += (mouseX - camera.position.x) * .05;
+        camera.position.y += (-mouseY - camera.position.y) * .05;
+        camera.lookAt(scene.position);
+        var i = 0;
+        for (var ix = 0; ix < AMOUNTX; ix++) {
+            for (var iy = 0; iy < AMOUNTY; iy++) {
+                particle = particles[i++];
+                particle.position.y = (Math.sin((ix + count) * 0.3) * 50) + (Math.sin((iy + count) * 0.5) * 50);
+                particle.scale.x = particle.scale.y = (Math.sin((ix + count) * 0.3) + 1) * 2 + (Math.sin((iy + count) * 0.5) + 1) * 2;
+            }
+        }
+        renderer.render(scene, camera);
+        count += 0.1;
+    }
+</script>
+<div th:include="include :: footer"></div>
+<script th:if="${show}">
+    $(function () {
+        toastr.error("[[${msg}]]");
+    });
+</script>
+<script>
+    $(function () {
+        var icon = "<i class='fa fa-times-circle'></i> ";
+        $("#loginForm").validate({
+            rules: {
+                account: {
+                    required: true
+                },
+                password: {
+                    required: true
+                }
+            },
+            messages: {
+                account: {
+                    required: icon + "请输入您的用户名"
+                },
+                password: {
+                    required: icon + "请输入您的密码"
+                }
+            },
+            errorPlacement: function (error, element) { //指定错误信息位置
+                if (element.is(':radio') || element.is(':checkbox')) { //如果是radio或checkbox
+                    var eid = element.attr('name'); //获取元素的name属性
+                    error.appendTo(element.parent()); //将错误信息添加当前元素的父结点后面
+                } else {
+                    error.insertAfter(element.parent());
+                }
+            }
+        });
+
+        // $("#captchaBtn").click(function () {
+        //     if ($.trim($("#account").val()) === '') {
+        //         xy.warnx("请输入您的用户名");
+        //         return;
+        //     }
+        //     xy.doAjaxRequest("[[@{/captcha}]]", {
+        //         account: $("#account").val()
+        //     }).done(function () {
+        //         xy.succx("验证码已发送");
+        //     });
+        // });
+    });
+</script>
+</body>
+</html>

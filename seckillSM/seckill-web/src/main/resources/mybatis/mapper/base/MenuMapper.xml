@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sukidesu.seckill.base.mapper.MenuMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="baseResultMap" type="com.sukidesu.seckill.base.domain.Menu">
+        <!--  -->
+        <id column="FuiId" property="id"/>
+        <!-- 编号 -->
+        <result column="FstrMenuId" property="menuId"/>
+        <!-- 父菜单ID，一级菜单为0 -->
+        <result column="FstrParentId" property="parentId"/>
+        <!-- 菜单名称 -->
+        <result column="FstrName" property="name"/>
+        <!-- 菜单URL -->
+        <result column="FstrUrl" property="url"/>
+        <!-- 授权(多个用逗号分隔，如：user:list,user:create) -->
+        <result column="FstrPerms" property="perms"/>
+        <!-- 类型   0：目录   1：菜单   2：按钮 -->
+        <result column="FuiType" property="type"/>
+        <!-- 菜单图标 -->
+        <result column="FstrIcon" property="icon"/>
+        <!-- 排序 -->
+        <result column="FuiSort" property="sort"/>
+        <!-- 创建者 -->
+        <result column="FstrCreateBy" property="createBy"/>
+        <!-- 更新者 -->
+        <result column="FstrUpdateBy" property="updateBy"/>
+        <!-- 创建时间 -->
+        <result column="FstrCreateTime" property="createTime"/>
+        <!-- 修改时间 -->
+        <result column="FstrUpdateTime" property="updateTime"/>
+        <!-- 删除标记 0:未删除，1:已删除 -->
+        <result column="FuiDelFlag" property="delFlag"/>
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="baseColumnList">
+        FuiId, FstrMenuId, FstrParentId, FstrName, FstrUrl, FstrPerms, FuiType, FstrIcon, FuiSort, FstrCreateBy, FstrUpdateBy, FstrCreateTime, FstrUpdateTime, FuiDelFlag
+    </sql>
+
+    <insert id="insert">
+        INSERT INTO t_menu
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="domain.id != null">FuiId,</if>
+            <if test="domain.menuId != null">FstrMenuId,</if>
+            <if test="domain.parentId != null">FstrParentId,</if>
+            <if test="domain.name != null">FstrName,</if>
+            <if test="domain.url != null">FstrUrl,</if>
+            <if test="domain.perms != null">FstrPerms,</if>
+            <if test="domain.type != null">FuiType,</if>
+            <if test="domain.icon != null">FstrIcon,</if>
+            <if test="domain.sort != null">FuiSort,</if>
+            <if test="domain.createBy != null">FstrCreateBy,</if>
+            <if test="domain.updateBy != null">FstrUpdateBy,</if>
+            <if test="domain.createTime != null">FstrCreateTime,</if>
+            <if test="domain.updateTime != null">FstrUpdateTime,</if>
+            <if test="domain.delFlag != null">FuiDelFlag,</if>
+        </trim>
+        VALUES
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="domain.id != null">#{domain.id},</if>
+            <if test="domain.menuId != null">#{domain.menuId},</if>
+            <if test="domain.parentId != null">#{domain.parentId},</if>
+            <if test="domain.name != null">#{domain.name},</if>
+            <if test="domain.url != null">#{domain.url},</if>
+            <if test="domain.perms != null">#{domain.perms},</if>
+            <if test="domain.type != null">#{domain.type},</if>
+            <if test="domain.icon != null">#{domain.icon},</if>
+            <if test="domain.sort != null">#{domain.sort},</if>
+            <if test="domain.createBy != null">#{domain.createBy},</if>
+            <if test="domain.updateBy != null">#{domain.updateBy},</if>
+            <if test="domain.createTime != null">#{domain.createTime},</if>
+            <if test="domain.updateTime != null">#{domain.updateTime},</if>
+            <if test="domain.delFlag != null">#{domain.delFlag},</if>
+        </trim>
+    </insert>
+
+    <insert id="insertList">
+        INSERT INTO t_menu(
+        <include refid="baseColumnList"/>
+        )VALUES
+        <foreach collection="domains" item="domain" index="index" separator=",">
+            (
+            #{domain.id},
+            #{domain.menuId},
+            #{domain.parentId},
+            #{domain.name},
+            #{domain.url},
+            #{domain.perms},
+            #{domain.type},
+            #{domain.icon},
+            #{domain.sort},
+            #{domain.createBy},
+            #{domain.updateBy},
+            #{domain.createTime},
+            #{domain.updateTime},
+            #{domain.delFlag}
+            )
+        </foreach>
+    </insert>
+
+    <update id="update">
+        UPDATE t_menu
+        <set>
+            <if test="domain.menuId != null">FstrMenuId = #{domain.menuId},</if>
+            <if test="domain.parentId != null">FstrParentId = #{domain.parentId},</if>
+            <if test="domain.name != null">FstrName = #{domain.name},</if>
+            <if test="domain.url != null">FstrUrl = #{domain.url},</if>
+            <if test="domain.perms != null">FstrPerms = #{domain.perms},</if>
+            <if test="domain.type != null">FuiType = #{domain.type},</if>
+            <if test="domain.icon != null">FstrIcon = #{domain.icon},</if>
+            <if test="domain.sort != null">FuiSort = #{domain.sort},</if>
+            <if test="domain.createBy != null">FstrCreateBy = #{domain.createBy},</if>
+            <if test="domain.updateBy != null">FstrUpdateBy = #{domain.updateBy},</if>
+            <if test="domain.createTime != null">FstrCreateTime = #{domain.createTime},</if>
+            <if test="domain.updateTime != null">FstrUpdateTime = #{domain.updateTime},</if>
+            <if test="domain.delFlag != null">FuiDelFlag = #{domain.delFlag},</if>
+        </set>
+        WHERE FuiId = #{domain.id}
+    </update>
+
+
+    <select id="select" resultMap="baseResultMap">
+        SELECT
+        <include refid="baseColumnList"/>
+        FROM t_menu
+        <where>
+            <if test="domain.id != null">AND FuiId = #{domain.id}</if>
+            <if test="domain.menuId != null">AND FstrMenuId = #{domain.menuId}</if>
+            <if test="domain.parentId != null">AND FstrParentId = #{domain.parentId}</if>
+            <if test="domain.name != null">AND FstrName = #{domain.name}</if>
+            <if test="domain.url != null">AND FstrUrl = #{domain.url}</if>
+            <if test="domain.perms != null">AND FstrPerms = #{domain.perms}</if>
+            <if test="domain.type != null">AND FuiType = #{domain.type}</if>
+            <if test="domain.icon != null">AND FstrIcon = #{domain.icon}</if>
+            <if test="domain.sort != null">AND FuiSort = #{domain.sort}</if>
+            <if test="domain.createBy != null">AND FstrCreateBy = #{domain.createBy}</if>
+            <if test="domain.updateBy != null">AND FstrUpdateBy = #{domain.updateBy}</if>
+            <if test="domain.createTime != null">AND FstrCreateTime = #{domain.createTime}</if>
+            <if test="domain.updateTime != null">AND FstrUpdateTime = #{domain.updateTime}</if>
+            <if test="domain.delFlag != null">AND FuiDelFlag = #{domain.delFlag}</if>
+        </where>
+    </select>
+
+    <select id="selectWithSort" resultMap="baseResultMap">
+        SELECT
+        <include refid="baseColumnList"/>
+        FROM t_menu
+        <if test="domain != null">
+            <where>
+                <if test="domain.id != null">AND FuiId = #{domain.id}</if>
+                <if test="domain.parentId != null">AND FuiParentId = #{domain.parentId}</if>
+                <if test="domain.name != null">AND FstrName = #{domain.name}</if>
+                <if test="domain.url != null">AND FstrUrl = #{domain.url}</if>
+                <if test="domain.perms != null">AND FstrPerms = #{domain.perms}</if>
+                <if test="domain.type != null">AND FuiType = #{domain.type}</if>
+                <if test="domain.icon != null">AND FstrIcon = #{domain.icon}</if>
+                <if test="domain.sort != null">AND FuiSort = #{domain.sort}</if>
+                <if test="domain.createBy != null">AND FuiCreateBy = #{domain.createBy}</if>
+                <if test="domain.updateBy != null">AND FuiUpdateBy = #{domain.updateBy}</if>
+                <if test="domain.createTime != null">AND FstrCreateTime = #{domain.createTime}</if>
+                <if test="domain.updateTime != null">AND FstrUpdateTime = #{domain.updateTime}</if>
+                <if test="domain.delFlag != null">AND FuiDelFlag = #{domain.delFlag}</if>
+            </where>
+        </if>
+        ORDER BY FuiSort
+    </select>
+
+    <select id="findMenuByUserId" resultMap="baseResultMap">
+        SELECT m.*
+        FROM t_menu m
+            INNER JOIN t_role_menu rm ON rm.FstrMenuId = m.FstrMenuId AND m.FuiDelFlag = 0
+            INNER JOIN t_role r ON r.FstrRoleId = rm.FstrRoleId AND r.FuiDelFlag = 0
+            INNER JOIN t_user_role ur ON ur.FstrRoleId = r.FstrRoleId AND ur.FstrUserId = #{userId}
+        WHERE m.FuiType IN (0, 1)
+    </select>
+
+    <select id="findMenuForAdmin" resultMap="baseResultMap">
+        SELECT m.*
+        FROM t_menu m
+        WHERE m.FuiType IN (0, 1) AND m.FuiDelFlag = 0
+    </select>
+
+    <select id="findPermCodesByUserId" resultType="java.lang.String">
+        SELECT m.FstrPerms
+        FROM t_menu m
+            INNER JOIN t_role_menu rm ON rm.FstrMenuId = m.FstrMenuId AND m.FuiDelFlag = 0
+            INNER JOIN t_role r ON r.FstrRoleId = rm.FstrRoleId AND r.FuiDelFlag = 0
+            INNER JOIN t_user_role ur ON ur.FstrRoleId = r.FstrRoleId AND ur.FstrUserId = #{userId}
+    </select>
+
+    <delete id="removeMenuById">
+        DELETE m.*
+        FROM t_menu m
+        WHERE FuiId = #{id}
+    </delete>
+
+</mapper>
