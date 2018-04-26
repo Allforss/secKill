@@ -17,13 +17,13 @@ import java.time.LocalDateTime;
 public class SeckillOrder {
 
     /*订单id*/
-    private long orderId;
+    private Long orderId;
     /*商品id*/
-    private long goodsId;
+    private Long goodsId;
     /*用户id*/
     private String userId;
     /*订单状态，0---失败，1---成功, 2---已发货*/
-    private int orderState;
+    private Integer orderState;
     /*创建时间*/
     private LocalDateTime createTime;
     /*更新时间*/

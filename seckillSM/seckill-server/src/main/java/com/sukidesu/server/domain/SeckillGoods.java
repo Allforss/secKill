@@ -19,13 +19,13 @@ import java.util.Date;
 public class SeckillGoods {
 
     /*商品id*/
-    private long goodsId;
+    private Long goodsId;
     /*商品名*/
     private String name;
     /*库存*/
-    private long number;
+    private Long number;
     /*价格，单位：分*/
-    private long price;
+    private Long price;
     /*商品描述*/
     private String description;
     /*秒杀开始时间*/

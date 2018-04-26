@@ -24,5 +24,50 @@
       FuiOrderId, FuiGoodsId, FstrUserId, FuiOrderState, FstrCreateTime, FstrUpdateTime
     </sql>
 
+    <insert id="insert">
+        INSERT INTO t_seckill_order
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="order.orderId != null">FuiOrderId,</if>
+            <if test="order.goodsId != null">FuiGoodsId,</if>
+            <if test="order.userId != null">FstrUserId,</if>
+            <if test="order.orderState != null">FuiOrderState,</if>
+            <if test="order.createTime != null">FstrCreateTime,</if>
+            <if test="order.updateTime != null">FstrUpdateTime,</if>
+        </trim>
+        VALUES
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="order.orderId != null">#{order.orderId},</if>
+            <if test="order.goodsId != null">#{order.goodsId},</if>
+            <if test="order.userId != null">#{order.userId},</if>
+            <if test="order.orderState != null">#{order.orderState},</if>
+            <if test="order.createTime != null">#{order.createTime},</if>
+            <if test="order.updateTime != null">#{order.updateTime},</if>
+        </trim>
+    </insert>
+
+    <update id="update" >
+        UPDATE t_seckill_order
+        <set>
+            <if test="order.goodsId != null">FuiGoodsId = #{order.goodsId},</if>
+            <if test="order.userId != null">FstrUserId = #{order.userId},</if>
+            <if test="order.orderState != null">FuiOrderState = #{order.orderState},</if>
+            <if test="order.updateTime != null">FstrUpdateTime = #{order.updateTime},</if>
+        </set>
+        WHERE FuiOrderId = #{order.orderId}
+    </update>
+    
+    <select id="queryOrder" resultMap="baseResultMap">
+        SELECT <include refid="baseColumnList"/>
+        FROM t_seckill_order
+        <where>
+            <if test="order.orderId != null">AND FuiOrderId = #{order.orderId}</if>
+            <if test="order.goodsId != null">AND FuiGoodsId = #{order.goodsId}</if>
+            <if test="order.userId != null">AND FstrUserId = #{order.userId}</if>
+            <if test="order.orderState != null">AND FuiOrderState = #{order.orderState}</if>
+            <if test="order.createTime != null">AND FstrCreateTime = #{order.createTime}</if>
+            <if test="order.updateTime != null">AND FstrUpdateTime = #{order.updateTime}</if>
+        </where>
+    </select>
+
 
 </mapper>

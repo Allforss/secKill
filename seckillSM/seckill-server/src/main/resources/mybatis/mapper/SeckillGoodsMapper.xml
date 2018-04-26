@@ -25,15 +25,109 @@
     </resultMap>
 
     <sql id="baseColumns">
-        FuiGoodsId, FstrName, FuiNumber, FuiPrice, FstrDescription
+        FuiGoodsId, FstrName, FuiNumber, FuiPrice, FstrDescription,
         FstrStartTime, FstrEndTime, FstrCreateTime, FstrUpdateTime
     </sql>
 
-    <select id="select" resultMap="baseResultMap">
+    <insert id="insertOne" parameterType="com.sukidesu.server.domain.SeckillGoods">
+        INSERT INTO t_seckill_goods
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="goods.goodsId != null">FuiGoodsId,</if>
+            <if test="goods.name != null">FstrName,</if>
+            <if test="goods.number != null">FuiNumber,</if>
+            <if test="goods.price != null">FuiPrice,</if>
+            <if test="goods.description != null">FstrDescription,</if>
+            <if test="goods.startTime != null">FstrStartTime,</if>
+            <if test="goods.endTime != null">FstrEndTime,</if>
+            <if test="goods.createTime != null">FstrCreateTime,</if>
+            <if test="goods.updateTime != null">FstrUpdateTime,</if>
+        </trim>
+        VALUES
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="goods.goodsId != null">#{goodsId.goodsId},</if>
+            <if test="goods.name != null">#{goods.name},</if>
+            <if test="goods.number != null">#{goods.number},</if>
+            <if test="goods.price != null">#{goods.price},</if>
+            <if test="goods.description != null">#{goods.description},</if>
+            <if test="goods.startTime != null">#{goods.startTime},</if>
+            <if test="goods.endTime != null">#{goods.endTime},</if>
+            <if test="goods.createTime != null">#{goods.createTime},</if>
+            <if test="goods.updateTime != null">#{goods.updateTime},</if>
+        </trim>
+
+    </insert>
+
+    <insert id="insertBatch">
+        INSERT INTO t_seckill_goods(<include refid="baseColumns"/>)
+        VALUES
+        <foreach collection="goodsList" item="goods" index="index" separator=",">
+        (
+            #{goods.goodsId},
+            #{goods.name},
+            #{goods.number},
+            #{goods.price},
+            #{goods.description},
+            #{goods.startTime},
+            #{goods.endTime},
+            #{goods.createTime},
+            #{goods.updateTime}
+        )
+        </foreach>
+    </insert>
+    
+    <update id="update" parameterType="com.sukidesu.server.domain.SeckillGoods">
+        UPDATE t_seckill_goods
+        <set>
+            <if test="goods.goodsId != null">FuiGoodsId = #{goods.goodsId},</if>
+            <if test="goods.name != null">FstrName = #{goods.name},</if>
+            <if test="goods.number != null">FuiNumber = #{goods.number},</if>
+            <if test="goods.price != null">FuiPrice = #{goods.price},</if>
+            <if test="goods.description != null">FstrDescription = #{goods.description},</if>
+            <if test="goods.startTime != null">FstrStartTime = #{goods.startTime},</if>
+            <if test="goods.endTime != null">FstrEndTime = #{goods.endTime},</if>
+            <if test="goods.createTime != null">FstrCreateTime = #{goods.createTime},</if>
+            <if test="goods.updateTime != null">FstrUpdateTime = #{goods.updateTime},</if>
+        </set>
+        WHERE FuiGoodsId = #{goods.goodsId}
+    </update>
+
+    <update id="reduceNumberById">
+        UPDATE t_seckill_goods
+        SET FuiNumber = FuiNumber - 1
+        WHERE FuiGoodsId = #{goodsId}
+        AND FstrStartTime <![CDATA[<=]]> #{killTime}
+        AND FstrEndTime <![CDATA[>]]> #{killTime}
+        AND FuiNumber > 0
+    </update>
 
 
+    <select id="queryById" resultMap="baseResultMap">
+        SELECT <include refid="baseColumns" />
+        FROM t_seckill_goods
+        WHERE FuiGoodsId = #{goodsId}
     </select>
 
+    <select id="selectOne" resultMap="baseResultMap">
+        SELECT <include refid="baseColumns"/>
+        FROM t_seckill_goods
+        <where>
+            <if test="goods.goodsId != null">AND FuiGoodsId = #{goods.goodsId}</if>
+            <if test="goods.name != null">AND FstrName = #{goods.name}</if>
+            <if test="goods.number != null">AND FuiNumber = #{goods.number}</if>
+            <if test="goods.price != null">AND FuiPrice = #{goods.price}</if>
+            <if test="goods.description != null">AND FstrDescription = #{goods.description}</if>
+            <if test="goods.startTime != null">AND FstrStartTime = #{goods.startTime}</if>
+            <if test="goods.endTime != null">AND FstrEndTime = #{goods.endTime}</if>
+            <if test="goods.createTime != null">AND FstrCreateTime = #{goods.createTime}</if>
+            <if test="goods.updateTime != null">AND FstrUpdateTime = #{goods.updateTime}</if>
+        </where>
+    </select>
 
+    <select id="selectList" resultMap="baseResultMap">
+        SELECT <include refid="baseColumns"/>
+        FROM t_seckill_goods
+        ORDER BY FstrCreateTime DESC
+        limit #{offset},#{limit}
+    </select>
 
 </mapper>

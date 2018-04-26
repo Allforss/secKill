@@ -1,6 +1,9 @@
 package com.sukidesu.server.mapper;
 
+import com.sukidesu.server.domain.SeckillOrder;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Component;
 
 /**
  * @author weixian.yan
@@ -8,8 +11,29 @@ import org.apache.ibatis.annotations.Mapper;
  * @description:
  */
 @Mapper
+@Component
 public interface SeckillOrderMapper {
 
+    /**
+     * 插入用户秒杀订单
+     * @param order
+     * @return
+     */
+    int insert(@Param("order") SeckillOrder order);
+
+    /**
+     * 更新订单信息
+     * @param order
+     * @return
+     */
+    int update(@Param("order") SeckillOrder order);
+
+    /**
+     * 查询订单
+     * @param order
+     * @return
+     */
+    SeckillOrder queryOrder(@Param("order") SeckillOrder order);
 
 
 }
