@@ -1,5 +1,6 @@
 package com.sukidesu.server.service;
 
+import com.github.pagehelper.Page;
 import com.sukidesu.server.domain.SeckillGoods;
 
 import java.util.Date;
@@ -51,7 +52,7 @@ public interface SeckillGoodsService {
      * 分页查询商品信息
      * @return
      */
-    List<SeckillGoods> selectList(int offset, int limit);
+    Page<SeckillGoods> selectList(SeckillGoods goods, int offset, int limit, String orderBy);
 
     /**
      * 根据商品ID减少库存

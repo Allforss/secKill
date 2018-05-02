@@ -1,5 +1,6 @@
 package com.sukidesu.server.domain;
 
+import com.alibaba.fastjson.JSON;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -36,5 +37,11 @@ public class SeckillGoods {
     private LocalDateTime createTime;
     /*更新时间*/
     private LocalDateTime updateTime;
+
+    //[{"goodsId":null, "name":null, "number":null, "price":null, "description":null,"startTime":null, "endTime":null, "createTime":null, "updateTime":null}]
+    public static void main(String[] args) {
+        SeckillGoods goods = new SeckillGoods();
+        System.out.println(goods.toString());
+    }
 
 }

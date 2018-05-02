@@ -17,6 +17,10 @@ public class Constants {
 
 	public static final TimeUnit EXPIRE_TIME_UNIT = TimeUnit.HOURS;
 
+	public static final String MD5_SALT = "fdyo@#$()nlfdj";
+
+	public static final String ORDER_BY_CREATETIME_DESC = "FstrCreateTime DESC";
+
 	/**
 	 * 空字符串 ""
 	 */
@@ -175,6 +179,13 @@ public class Constants {
 
 		public static final String GBK = "GBK";
 		public static final String UTF8 = "UTF-8";
+	}
+
+	/**
+	 * 秒杀redis相关常量
+	 */
+	public static final class SeckillRedis{
+		public static final String SECKILL_PREFIX = "seckill:goodsId:";
 	}
 
 

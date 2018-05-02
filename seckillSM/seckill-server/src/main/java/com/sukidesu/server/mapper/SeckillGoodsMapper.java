@@ -56,7 +56,7 @@ public interface SeckillGoodsMapper {
      * 分页查询商品信息
      * @return
      */
-    List<SeckillGoods> selectList(@Param("offset") int offset,@Param("limit") int limit);
+    List<SeckillGoods> selectList(@Param("goods") SeckillGoods goods, @Param("offset") int offset,@Param("limit") int limit);
 
     /**
      * 根据商品ID减少库存

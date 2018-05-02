@@ -126,8 +126,17 @@
     <select id="selectList" resultMap="baseResultMap">
         SELECT <include refid="baseColumns"/>
         FROM t_seckill_goods
-        ORDER BY FstrCreateTime DESC
-        limit #{offset},#{limit}
+        <where>
+            <if test="goods.goodsId != null">AND FuiGoodsId = #{goods.goodsId}</if>
+            <if test="goods.name != null">AND FstrName = #{goods.name}</if>
+            <if test="goods.number != null">AND FuiNumber = #{goods.number}</if>
+            <if test="goods.price != null">AND FuiPrice = #{goods.price}</if>
+            <if test="goods.description != null">AND FstrDescription = #{goods.description}</if>
+            <if test="goods.startTime != null">AND FstrStartTime = #{goods.startTime}</if>
+            <if test="goods.endTime != null">AND FstrEndTime = #{goods.endTime}</if>
+            <if test="goods.createTime != null">AND FstrCreateTime = #{goods.createTime}</if>
+            <if test="goods.updateTime != null">AND FstrUpdateTime = #{goods.updateTime}</if>
+        </where>
     </select>
 
 </mapper>

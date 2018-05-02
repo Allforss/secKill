@@ -1,5 +1,7 @@
 package com.sukidesu.server.service.impl;
 
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
 import com.sukidesu.server.domain.SeckillGoods;
 import com.sukidesu.server.mapper.SeckillGoodsMapper;
 import com.sukidesu.server.service.SeckillGoodsService;
@@ -52,8 +54,10 @@ public class SeckillGoodsServiceImpl implements SeckillGoodsService {
     }
 
     @Override
-    public List<SeckillGoods> selectList(int offset, int limit) {
-        return goodsMapper.selectList(offset, limit);
+    public Page<SeckillGoods> selectList(SeckillGoods goods, int offset, int limit, String orderBy) {
+        return PageHelper.offsetPage(offset,limit)
+                .setOrderBy(orderBy)
+                .doSelectPage(() -> goodsMapper.selectList(goods,offset,limit));
     }
 
     @Override
