@@ -1,26 +1,28 @@
 package com.sukidesu.server.service.impl;
 
 import com.github.pagehelper.Page;
-import com.sukidesu.server.common.enums.SeckillStateEnum;
-import com.sukidesu.server.common.utils.MD5Util;
-import com.sukidesu.server.domain.SeckillGoods;
-import com.sukidesu.server.domain.SeckillOrder;
-import com.sukidesu.server.dto.Exposer;
-import com.sukidesu.server.dto.SeckillExecution;
-import com.sukidesu.server.exception.RepeatSeckillException;
-import com.sukidesu.server.exception.SeckillCloseException;
-import com.sukidesu.server.exception.SeckillException;
+import com.sukidesu.common.common.enums.SeckillStateEnum;
+import com.sukidesu.common.common.utils.MD5Util;
+import com.sukidesu.common.domain.SeckillGoods;
+import com.sukidesu.common.domain.SeckillOrder;
+import com.sukidesu.common.dto.Exposer;
+import com.sukidesu.common.dto.SeckillExecution;
+import com.sukidesu.common.exception.RepeatSeckillException;
+import com.sukidesu.common.exception.SeckillCloseException;
+import com.sukidesu.common.exception.SeckillException;
 import com.sukidesu.server.redis.SeckillGoodsRedis;
 import com.sukidesu.server.service.SeckillGoodsService;
 import com.sukidesu.server.service.SeckillOrderService;
 import com.sukidesu.server.service.SeckillService;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.collections.MapUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author weixian.yan
@@ -42,7 +44,7 @@ public class SeckillServiceImpl implements SeckillService {
 
     @Override
     public Page<SeckillGoods> getSeckillList(SeckillGoods goods, int offset,
-             int limit, String orderBy) {
+                                             int limit, String orderBy) {
         return goodsService.selectList(goods,offset,limit,orderBy);
     }
 
@@ -70,7 +72,8 @@ public class SeckillServiceImpl implements SeckillService {
                     startTime.getTime(), endTime.getTime());
         }
         String md5 = MD5Util.getMD5(goodsId);
-        return new Exposer(true, md5, goodsId);
+        return new Exposer(true, md5, goodsId, nowTime.getTime(),
+                startTime.getTime(), endTime.getTime());
     }
 
     @Override
@@ -93,11 +96,8 @@ public class SeckillServiceImpl implements SeckillService {
                 if(insertCount <=0 ){//重复秒杀
                     throw new RepeatSeckillException("对不起，您不能重复秒杀");
                 } else { //秒杀成功
-                    SeckillOrder seckillOrder = orderService.queryOrder(order);
-                    Date endKillTime = new Date();
-                    log.info("本次执行秒杀耗时（ms）：{}",endKillTime.getTime() - killTime.getTime());
-                    return new SeckillExecution(goodsId,
-                            SeckillStateEnum.SUCCESS, seckillOrder);
+                    logSeckillTime(killTime);
+                    return new SeckillExecution(goodsId, SeckillStateEnum.SUCCESS, order);
                 }
             }
 
@@ -111,6 +111,43 @@ public class SeckillServiceImpl implements SeckillService {
             log.error("系统内部异常：{}",e3);
             throw new SeckillException("系统内部异常");
         }
+    }
+
+    @Override
+    public SeckillExecution executeSeckillByProcedure(SeckillOrder order, String md5)
+            throws SeckillException {
+        if (md5 == null || !md5.equals(MD5Util.getMD5(order.getGoodsId()))) {
+            throw new SeckillException("秒杀信息被篡改");
+        }
+        // 执行秒杀逻辑：减库存+增加秒杀成功记录
+        Date killTime = new Date();
+        long goodsId = order.getGoodsId();
+        String userId = order.getUserId();
+        Map<String, Object> params = new HashMap<String,Object>();
+        params.put("orderId",order.getOrderId());
+        params.put("goodsId", goodsId);
+        params.put("userId", userId);
+        params.put("killTime", killTime);
+        params.put("result", null);
+        try {
+            goodsService.killByProcedure(params);
+            // 获取result
+            int result = MapUtils.getInteger(params, "result", -2);
+            if (result == 1) {
+                logSeckillTime(killTime);
+                return new SeckillExecution(goodsId, SeckillStateEnum.SUCCESS, order);
+            } else {
+                return new SeckillExecution(goodsId, SeckillStateEnum.stateOf(result));
+            }
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
+            return new SeckillExecution(goodsId, SeckillStateEnum.INNER_ERROR);
+        }
+    }
+
+    private void logSeckillTime(Date startKillTime){
+        Date endKillTime = new Date();
+        log.info("秒杀事务耗时（ms）：{}",endKillTime.getTime() - startKillTime.getTime());
     }
 
 }

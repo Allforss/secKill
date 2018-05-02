@@ -3,7 +3,7 @@
 <mapper namespace="com.sukidesu.server.mapper.SeckillGoodsMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="baseResultMap" type="com.sukidesu.server.domain.SeckillGoods">
+    <resultMap id="baseResultMap" type="com.sukidesu.common.domain.SeckillGoods">
         <!-- 商品id -->
         <id column="FuiGoodsId" property="goodsId"/>
         <!-- 商品名 -->
@@ -29,7 +29,7 @@
         FstrStartTime, FstrEndTime, FstrCreateTime, FstrUpdateTime
     </sql>
 
-    <insert id="insertOne" parameterType="com.sukidesu.server.domain.SeckillGoods">
+    <insert id="insertOne" parameterType="com.sukidesu.common.domain.SeckillGoods">
         INSERT INTO t_seckill_goods
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="goods.goodsId != null">FuiGoodsId,</if>
@@ -75,7 +75,7 @@
         </foreach>
     </insert>
     
-    <update id="update" parameterType="com.sukidesu.server.domain.SeckillGoods">
+    <update id="update" parameterType="com.sukidesu.common.domain.SeckillGoods">
         UPDATE t_seckill_goods
         <set>
             <if test="goods.goodsId != null">FuiGoodsId = #{goods.goodsId},</if>
@@ -137,6 +137,16 @@
             <if test="goods.createTime != null">AND FstrCreateTime = #{goods.createTime}</if>
             <if test="goods.updateTime != null">AND FstrUpdateTime = #{goods.updateTime}</if>
         </where>
+    </select>
+
+    <select id="killByProcedure" statementType="CALLABLE">
+        call execute_seckill(
+            #{orderId,jdbcType=VARCHAR,mode=IN},
+			#{goodsId,jdbcType=BIGINT,mode=IN},
+			#{userId,jdbcType=VARCHAR,mode=IN},
+			#{killTime,jdbcType=TIMESTAMP,mode=IN},
+			#{result,jdbcType=INTEGER,mode=OUT}
+		)
     </select>
 
 </mapper>

@@ -1,13 +1,13 @@
 package com.sukidesu.server.service;
 
 import com.github.pagehelper.Page;
-import com.sukidesu.server.domain.SeckillGoods;
-import com.sukidesu.server.domain.SeckillOrder;
-import com.sukidesu.server.dto.Exposer;
-import com.sukidesu.server.dto.SeckillExecution;
-import com.sukidesu.server.exception.RepeatSeckillException;
-import com.sukidesu.server.exception.SeckillCloseException;
-import com.sukidesu.server.exception.SeckillException;
+import com.sukidesu.common.domain.SeckillGoods;
+import com.sukidesu.common.domain.SeckillOrder;
+import com.sukidesu.common.dto.Exposer;
+import com.sukidesu.common.dto.SeckillExecution;
+import com.sukidesu.common.exception.RepeatSeckillException;
+import com.sukidesu.common.exception.SeckillCloseException;
+import com.sukidesu.common.exception.SeckillException;
 
 /**
  * @author weixian.yan
@@ -45,4 +45,15 @@ public interface SeckillService {
     SeckillExecution executeSeckill(SeckillOrder order, String md5)
             throws RepeatSeckillException,SeckillCloseException,SeckillException;
 
+    /**
+     * 通过存储过程执行秒杀操作
+     * @param order
+     * @param md5
+     * @return
+     * @throws RepeatSeckillException
+     * @throws SeckillCloseException
+     * @throws SeckillException
+     */
+    SeckillExecution executeSeckillByProcedure(SeckillOrder order, String md5)
+            throws RepeatSeckillException,SeckillCloseException,SeckillException;
 }

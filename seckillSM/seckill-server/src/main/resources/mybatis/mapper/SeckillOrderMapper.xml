@@ -4,9 +4,9 @@
 <mapper namespace="com.sukidesu.server.mapper.SeckillOrderMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="baseResultMap" type="com.sukidesu.server.domain.SeckillOrder">
+    <resultMap id="baseResultMap" type="com.sukidesu.common.domain.SeckillOrder">
         <!-- 订单id -->
-        <id column="FuiOrderId" property="orderId"/>
+        <id column="FstrOrderId" property="orderId"/>
         <!-- 商品id -->
         <result column="FuiGoodsId" property="goodsId"/>
         <!-- 用户id -->
@@ -21,13 +21,13 @@
 
     <!-- 通用查询结果列 -->
     <sql id="baseColumnList">
-      FuiOrderId, FuiGoodsId, FstrUserId, FuiOrderState, FstrCreateTime, FstrUpdateTime
+      FstrOrderId, FuiGoodsId, FstrUserId, FuiOrderState, FstrCreateTime, FstrUpdateTime
     </sql>
 
     <insert id="insert">
         INSERT INTO t_seckill_order
         <trim prefix="(" suffix=")" suffixOverrides=",">
-            <if test="order.orderId != null">FuiOrderId,</if>
+            <if test="order.orderId != null">FstrOrderId,</if>
             <if test="order.goodsId != null">FuiGoodsId,</if>
             <if test="order.userId != null">FstrUserId,</if>
             <if test="order.orderState != null">FuiOrderState,</if>
@@ -53,14 +53,14 @@
             <if test="order.orderState != null">FuiOrderState = #{order.orderState},</if>
             <if test="order.updateTime != null">FstrUpdateTime = #{order.updateTime},</if>
         </set>
-        WHERE FuiOrderId = #{order.orderId}
+        WHERE FstrOrderId = #{order.orderId}
     </update>
     
     <select id="queryOrder" resultMap="baseResultMap">
         SELECT <include refid="baseColumnList"/>
         FROM t_seckill_order
         <where>
-            <if test="order.orderId != null">AND FuiOrderId = #{order.orderId}</if>
+            <if test="order.orderId != null">AND FstrOrderId = #{order.orderId}</if>
             <if test="order.goodsId != null">AND FuiGoodsId = #{order.goodsId}</if>
             <if test="order.userId != null">AND FstrUserId = #{order.userId}</if>
             <if test="order.orderState != null">AND FuiOrderState = #{order.orderState}</if>

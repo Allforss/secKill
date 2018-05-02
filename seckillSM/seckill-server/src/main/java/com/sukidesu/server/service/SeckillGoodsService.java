@@ -1,10 +1,11 @@
 package com.sukidesu.server.service;
 
 import com.github.pagehelper.Page;
-import com.sukidesu.server.domain.SeckillGoods;
+import com.sukidesu.common.domain.SeckillGoods;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author weixian.yan
@@ -59,5 +60,7 @@ public interface SeckillGoodsService {
      * @return
      */
     int reduceNumberById(long goodsId, Date killTime);
+
+    void killByProcedure(Map<String, Object> params);
 
 }

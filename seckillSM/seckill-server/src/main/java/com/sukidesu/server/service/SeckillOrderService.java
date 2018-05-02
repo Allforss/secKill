@@ -1,6 +1,6 @@
 package com.sukidesu.server.service;
 
-import com.sukidesu.server.domain.SeckillOrder;
+import com.sukidesu.common.domain.SeckillOrder;
 
 /**
  * @author weixian.yan

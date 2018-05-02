@@ -1,12 +1,13 @@
 package com.sukidesu.server.mapper;
 
-import com.sukidesu.server.domain.SeckillGoods;
+import com.sukidesu.common.domain.SeckillGoods;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author weixian.yan
@@ -63,5 +64,11 @@ public interface SeckillGoodsMapper {
      * @return
      */
     int reduceNumberById(@Param("goodsId") long goodsId, @Param("killTime") Date killTime);
+
+    /**
+     * 通过存储过程执行秒杀操作
+     * @param params
+     */
+    void killByProcedure(Map<String, Object> params);
 
 }

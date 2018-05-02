@@ -212,6 +212,8 @@ public class ShiroConfig {
         chainDefinition.addPathDefinition("/sys/user/exist","anon");
         chainDefinition.addPathDefinition("/sys/user/add","anon");
 
+        chainDefinition.addPathDefinition("/web/**","anon");
+
         chainDefinition.addPathDefinition("/**", "custom");
         return chainDefinition;
     }

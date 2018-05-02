@@ -2,7 +2,7 @@ package com.sukidesu.server.service.impl;
 
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
-import com.sukidesu.server.domain.SeckillGoods;
+import com.sukidesu.common.domain.SeckillGoods;
 import com.sukidesu.server.mapper.SeckillGoodsMapper;
 import com.sukidesu.server.service.SeckillGoodsService;
 import lombok.extern.log4j.Log4j;
@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author weixian.yan
@@ -63,5 +64,10 @@ public class SeckillGoodsServiceImpl implements SeckillGoodsService {
     @Override
     public int reduceNumberById(long goodsId, Date killTime) {
         return goodsMapper.reduceNumberById(goodsId, killTime);
+    }
+
+    @Override
+    public void killByProcedure(Map<String, Object> params) {
+        goodsMapper.killByProcedure(params);
     }
 }

@@ -1,12 +1,11 @@
 package com.sukidesu.server.service.impl;
 
-import com.sukidesu.server.domain.SeckillOrder;
+import com.sukidesu.common.domain.SeckillOrder;
 import com.sukidesu.server.mapper.SeckillOrderMapper;
 import com.sukidesu.server.service.SeckillOrderService;
 import lombok.extern.log4j.Log4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 /**
  * @author weixian.yan

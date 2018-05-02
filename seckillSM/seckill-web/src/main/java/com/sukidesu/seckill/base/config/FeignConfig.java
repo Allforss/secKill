@@ -17,12 +17,12 @@ import static org.springframework.beans.factory.config.BeanDefinition.SCOPE_PROT
 @Configuration
 public class FeignConfig {
 
-    @Bean
-    @Primary
-    @Scope(SCOPE_PROTOTYPE)
-    public Encoder feignFormEncoder(){
-        return new SpringFormEncoder();
-    }
+//    @Bean
+//    @Primary
+//    @Scope(SCOPE_PROTOTYPE)
+//    public Encoder feignFormEncoder(){
+//        return new SpringFormEncoder();
+//    }
 
     @Bean
     public Logger.Level level() {

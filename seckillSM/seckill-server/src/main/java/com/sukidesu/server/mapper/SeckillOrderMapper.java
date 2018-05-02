@@ -1,6 +1,6 @@
 package com.sukidesu.server.mapper;
 
-import com.sukidesu.server.domain.SeckillOrder;
+import com.sukidesu.common.domain.SeckillOrder;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Component;

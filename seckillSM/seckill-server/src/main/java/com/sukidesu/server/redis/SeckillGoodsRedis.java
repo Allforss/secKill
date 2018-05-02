@@ -1,9 +1,9 @@
 package com.sukidesu.server.redis;
 
 import com.alibaba.fastjson.JSON;
-import com.sukidesu.server.common.Constants.Constants;
-import com.sukidesu.server.domain.SeckillGoods;
-import com.sukidesu.server.exception.RedisException;
+import com.sukidesu.common.common.Constants.Constants;
+import com.sukidesu.common.domain.SeckillGoods;
+import com.sukidesu.common.exception.RedisException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
