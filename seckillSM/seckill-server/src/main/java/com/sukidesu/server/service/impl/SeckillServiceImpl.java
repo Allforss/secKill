@@ -2,6 +2,7 @@ package com.sukidesu.server.service.impl;
 
 import com.github.pagehelper.Page;
 import com.sukidesu.common.common.enums.SeckillStateEnum;
+import com.sukidesu.common.common.page.PageList;
 import com.sukidesu.common.common.utils.MD5Util;
 import com.sukidesu.common.domain.SeckillGoods;
 import com.sukidesu.common.domain.SeckillOrder;
@@ -44,7 +45,7 @@ public class SeckillServiceImpl implements SeckillService {
 
     @Override
     public Page<SeckillGoods> getSeckillList(SeckillGoods goods, int offset,
-                                             int limit, String orderBy) {
+                                                 int limit, String orderBy) {
         return goodsService.selectList(goods,offset,limit,orderBy);
     }
 

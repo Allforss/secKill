@@ -58,7 +58,7 @@ public class SeckillGoodsServiceImpl implements SeckillGoodsService {
     public Page<SeckillGoods> selectList(SeckillGoods goods, int offset, int limit, String orderBy) {
         return PageHelper.offsetPage(offset,limit)
                 .setOrderBy(orderBy)
-                .doSelectPage(() -> goodsMapper.selectList(goods,offset,limit));
+                .doSelectPage(() -> goodsMapper.selectList(goods, offset, limit));
     }
 
     @Override

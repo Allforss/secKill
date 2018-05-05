@@ -12,12 +12,12 @@ import java.util.List;
  */
 @Data
 @NoArgsConstructor
-public class PageList implements Serializable {
+public class PageList<T> implements Serializable {
 
     private static final long serialVersionUID = -2377444201482653486L;
 
     private long total;
-    private List rows;
+    private List<T> rows;
 
     public PageList(long total, List rows) {
         this.total = total;

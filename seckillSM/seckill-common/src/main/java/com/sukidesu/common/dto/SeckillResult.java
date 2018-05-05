@@ -1,10 +1,15 @@
 package com.sukidesu.common.dto;
 
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 /**
  * @author weixian.yan
  * 所有ajax请求的返回类型，封装json结果
  * @param <T>
  */
+@Data
+@NoArgsConstructor
 public class SeckillResult<T> {
 
 	private boolean success;
@@ -12,8 +17,6 @@ public class SeckillResult<T> {
 	private T data;
 	
 	private String error;
-
-	public SeckillResult(){}
 
 	public SeckillResult(boolean success, T data) {
 		super();
@@ -27,30 +30,5 @@ public class SeckillResult<T> {
 		this.error = error;
 	}
 
-	public boolean isSuccess() {
-		return success;
-	}
-
-	public void setSuccess(boolean success) {
-		this.success = success;
-	}
-
-	public T getData() {
-		return data;
-	}
-
-	public void setData(T data) {
-		this.data = data;
-	}
-
-	public String getError() {
-		return error;
-	}
-
-	public void setError(String error) {
-		this.error = error;
-	}
-	
-	
 	
 }

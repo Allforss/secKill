@@ -3,6 +3,7 @@ package com.sukidesu.seckill;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import feign.Logger;
 import org.springframework.boot.Banner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -32,4 +33,5 @@ public class SeckillSMApplication {
         objectMapper.registerModule(new JavaTimeModule());
         return objectMapper;
     }
+
 }

@@ -2,10 +2,19 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/eureka-server/eureka-server.iml" filepath="$PROJECT_DIR$/.idea/modules/eureka-server/eureka-server.iml" group="eureka-server" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/eureka-server/eureka-server_main.iml" filepath="$PROJECT_DIR$/.idea/modules/eureka-server/eureka-server_main.iml" group="eureka-server" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/eureka-server/eureka-server_test.iml" filepath="$PROJECT_DIR$/.idea/modules/eureka-server/eureka-server_test.iml" group="eureka-server" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/seckill-common.iml" filepath="$PROJECT_DIR$/.idea/modules/seckill-common.iml" group="seckill-common" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/seckill-common_main.iml" filepath="$PROJECT_DIR$/.idea/modules/seckill-common_main.iml" group="seckill-common" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/seckill-common_test.iml" filepath="$PROJECT_DIR$/.idea/modules/seckill-common_test.iml" group="seckill-common" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/seckill-server.iml" filepath="$PROJECT_DIR$/.idea/modules/seckill-server.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/seckill-server_main.iml" filepath="$PROJECT_DIR$/.idea/modules/seckill-server_main.iml" group="seckill-server" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/seckill-server_test.iml" filepath="$PROJECT_DIR$/.idea/modules/seckill-server_test.iml" group="seckill-server" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/seckill-web/seckill-web.iml" filepath="$PROJECT_DIR$/.idea/modules/seckill-web/seckill-web.iml" group="seckill-web" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/seckill-web/seckill-web_main.iml" filepath="$PROJECT_DIR$/.idea/modules/seckill-web/seckill-web_main.iml" group="seckill-web" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/seckill-web/seckill-web_test.iml" filepath="$PROJECT_DIR$/.idea/modules/seckill-web/seckill-web_test.iml" group="seckill-web" />
       <module fileurl="file://$PROJECT_DIR$/seckillSM.iml" filepath="$PROJECT_DIR$/seckillSM.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/web/web.iml" filepath="$PROJECT_DIR$/.idea/modules/web/web.iml" group="web" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/web/web_main.iml" filepath="$PROJECT_DIR$/.idea/modules/web/web_main.iml" group="web" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/web/web_test.iml" filepath="$PROJECT_DIR$/.idea/modules/web/web_test.iml" group="web" />
     </modules>
   </component>
 </project>

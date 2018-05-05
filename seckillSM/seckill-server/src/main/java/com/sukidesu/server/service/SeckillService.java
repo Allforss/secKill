@@ -1,6 +1,7 @@
 package com.sukidesu.server.service;
 
 import com.github.pagehelper.Page;
+import com.sukidesu.common.common.page.PageList;
 import com.sukidesu.common.domain.SeckillGoods;
 import com.sukidesu.common.domain.SeckillOrder;
 import com.sukidesu.common.dto.Exposer;

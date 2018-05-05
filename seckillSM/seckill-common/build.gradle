@@ -35,5 +35,12 @@ dependencies {
 	compile("com.github.pagehelper:pagehelper-spring-boot-starter:1.2.3")
 	compile('org.apache.commons:commons-lang3:3.4')
 
+	compile('com.alibaba:fastjson:1.2.44')
+	compile("com.fasterxml.jackson.datatype:jackson-datatype-jdk8:2.8.10")
+	compile("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.8.10")
+	compile('com.fasterxml.jackson.datatype:jackson-datatype-joda:2.8.10')
+
+	compile("com.alibaba:druid-spring-boot-starter:1.1.6")
+
 	testCompile('org.springframework.boot:spring-boot-starter-test')
 }

@@ -128,7 +128,7 @@
         FROM t_seckill_goods
         <where>
             <if test="goods.goodsId != null">AND FuiGoodsId = #{goods.goodsId}</if>
-            <if test="goods.name != null">AND FstrName = #{goods.name}</if>
+            <if test="goods.name != null">AND FstrName like "%"#{goods.name}"%"</if>
             <if test="goods.number != null">AND FuiNumber = #{goods.number}</if>
             <if test="goods.price != null">AND FuiPrice = #{goods.price}</if>
             <if test="goods.description != null">AND FstrDescription = #{goods.description}</if>

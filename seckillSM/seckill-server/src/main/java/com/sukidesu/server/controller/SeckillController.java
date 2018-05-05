@@ -1,9 +1,11 @@
 package com.sukidesu.server.controller;
 
+import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.Page;
 import com.sukidesu.common.common.Constants.Constants;
 import com.sukidesu.common.common.enums.OrderStateEnum;
 import com.sukidesu.common.common.enums.SeckillStateEnum;
+import com.sukidesu.common.common.page.PageList;
 import com.sukidesu.common.common.utils.IdGenerator;
 import com.sukidesu.common.domain.SeckillGoods;
 import com.sukidesu.common.domain.SeckillOrder;
@@ -26,7 +28,7 @@ import java.time.LocalDateTime;
  * @description: 秒杀控制器
  */
 @RestController
-@RequestMapping("seckill")
+@RequestMapping("/seckill")
 @Slf4j
 public class SeckillController {
 
@@ -39,13 +41,27 @@ public class SeckillController {
     private IdGenerator idGenerator;
 
     @PostMapping("/list")
-    public Page<SeckillGoods> pageList(@RequestBody PageDTO<SeckillGoods> pageDTO){
+    public PageList<SeckillGoods> pageList(@RequestBody PageDTO<SeckillGoods> pageDTO){
         log.info("入参 pageDTO={}",pageDTO);
         SeckillGoods goods = pageDTO.getModel();
         int offset = pageDTO.getOffset();
         int limit = pageDTO.getLimit();
         Page<SeckillGoods> page = seckillService.getSeckillList(goods, offset, limit, ORDERBY);
-        return page;
+        log.info("出参：page={}",page);
+        PageList<SeckillGoods> result = new PageList<SeckillGoods>(page.getTotal(), page.getResult());
+        log.info("JSON序列化result={}", JSON.toJSONString(result));
+        return result;
+    }
+
+    @GetMapping("/detail")
+    public SeckillGoods getDetail(Long goodsId){
+        if(null == goodsId){
+            return null;
+        }
+        log.info("入参 goodsId={}",goodsId);
+        SeckillGoods goods = seckillService.getById(goodsId);
+        log.info("出参：goods={}",goods);
+        return goods;
     }
 
     @PostMapping("/exposer")
@@ -60,6 +76,7 @@ public class SeckillController {
             log.error("e{}", e.getMessage());
             result = new SeckillResult<Exposer>(false, e.getMessage());
         }
+        log.info("出参：result={}",result);
         return result;
     }
 
@@ -77,6 +94,7 @@ public class SeckillController {
             order.setUpdateTime(LocalDateTime.now());
             order.setOrderState(OrderStateEnum.SUCCESS.getState());
             SeckillExecution  execution = seckillService.executeSeckill(order, md5);
+            log.info("出参 execution={}",execution);
             return new SeckillResult<SeckillExecution>(true, execution);
         } catch (RepeatSeckillException e) {
             SeckillExecution execution = new SeckillExecution(goodsId, SeckillStateEnum.REPEAT_KILL);

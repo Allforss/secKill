@@ -77,7 +77,10 @@ dependencies {
     compile('org.springframework.boot:spring-boot-starter-actuator')
 
     compile('com.alibaba:fastjson:1.2.44')
-    compile('com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.9.3')
+    compile("com.fasterxml.jackson.datatype:jackson-datatype-jdk8:2.8.10")
+    compile("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.8.10")
+    compile('com.fasterxml.jackson.datatype:jackson-datatype-joda:2.8.10')
+
 
     compileOnly('org.projectlombok:lombok')
 
