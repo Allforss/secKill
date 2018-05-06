@@ -6,6 +6,7 @@ import com.sukidesu.common.common.utils.LocalDateTimeUtils;
 import java.io.File;
 import java.time.LocalDateTime;
 import java.util.Date;
+import java.util.TimeZone;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -169,6 +170,14 @@ public class Constants {
 		 */
 		public static final String MM = "MM";
 
+	}
+
+	/**
+	 * 时区常量
+	 */
+	public static final class TimeZone{
+
+		public static final String ASIA_SHANGHAI = "Asia/Shanghai";
 	}
 
 

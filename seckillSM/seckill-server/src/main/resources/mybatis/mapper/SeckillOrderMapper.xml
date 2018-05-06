@@ -25,7 +25,7 @@
     </sql>
 
     <insert id="insert">
-        INSERT INTO t_seckill_order
+        INSERT IGNORE INTO t_seckill_order
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="order.orderId != null">FstrOrderId,</if>
             <if test="order.goodsId != null">FuiGoodsId,</if>

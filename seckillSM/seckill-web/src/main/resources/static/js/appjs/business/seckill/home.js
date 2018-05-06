@@ -2,6 +2,11 @@ var prefix = "/web/seckill";
 $(function () {
     load();
 });
+function formatMoney(num){
+    var source = String(num).split(".");//按小数点分成2部分
+    source[0] = source[0].replace(new RegExp('(\\d)(?=(\\d{3})+$)','ig'),"$1,");//只将整数部分进行都好分割
+    return source.join(".");//再将小数部分合并进来
+}
 
 function load() {
     $('#exampleTable').bootstrapTable({
@@ -28,11 +33,12 @@ function load() {
         singleSelect: false, // 设置为true将禁止多选
         // contentType : "application/x-www-form-urlencoded",
         // //发送到服务器的数据编码类型
-        pageSize: 10, // 如果设置了分页，每页数据条数
+        pageSize: 9, // 如果设置了分页，每页数据条数
+        pageList: [15, 30, 60, 100],
         pageNumber: 1, // 如果设置了分布，首页页码
         // "server"
         queryParams: function (params) {
-            console.log("params:offset=" + params.offset + "limit=" + params.offset);
+            // console.log("params:offset=" + params.offset + ",limit=" + params.offset);
             return {
                 // 说明：传入后台的参数包括offset开始索引，limit步长，sort排序列，order：desc或者,以及所有列的键值对
                 name: $('#name').val(),
@@ -54,7 +60,10 @@ function load() {
             title: '商品名' // 列标题
         }, {
             field: 'price',
-            title: '秒杀价格'
+            title: '秒杀价格',
+            formatter:function (value, row, index) {
+                return formatMoney((parseFloat(value)/ 100).toFixed(2));
+            }
         }, {
             field: 'number',
             title: '库存'

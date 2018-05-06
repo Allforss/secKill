@@ -7,12 +7,12 @@ import com.sukidesu.common.dto.SeckillExecution;
 import com.sukidesu.common.dto.SeckillResult;
 import com.sukidesu.seckill.base.common.page.PageList;
 import com.sukidesu.seckill.base.model.MessageBean;
+import com.sukidesu.seckill.base.shiro.ShiroUtil;
 import com.sukidesu.seckill.base.web.BaseController;
 import com.sukidesu.seckill.business.service.SeckillService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -36,12 +36,11 @@ public class WebController extends BaseController{
 
     @GetMapping("/home")
     public String home(){
-        return "sys/index";
+        return "home";
     }
 
     @GetMapping("/detail")
-    public String toDetail(Long goodsId){
-        ModelMap model = new ModelMap();
+    public String toDetail(Long goodsId, ModelMap model){
         SeckillGoods goods = seckillService.getDetail(goodsId);
         model.addAttribute("goods", goods);
         return "business/seckill/detail";
@@ -73,7 +72,11 @@ public class WebController extends BaseController{
         if(null == goodsId){
             return new SeckillResult<Exposer>(false, "商品id为空");
         }
-        return seckillService.exposer(goodsId);
+        SeckillResult<Exposer> result = seckillService.exposer(goodsId);
+        String userId = ShiroUtil.getCurrentUser().getUserId();
+        result.getData().setUserId(userId);
+        log.info("exposer出参：result={}",result);
+        return result;
     }
 
     @PostMapping("/execution")
@@ -89,14 +92,16 @@ public class WebController extends BaseController{
         if(null == md5){
             return new SeckillResult<SeckillExecution>(false, "md5值为空");
         }
-        return seckillService.execute(goodsId, userId, md5);
+        SeckillResult<SeckillExecution> result = seckillService.execute(goodsId, userId, md5);
+        log.info("execute 出参：result={}",result);
+        return result;
     }
 
     @GetMapping("/time/now")
     @ResponseBody
     public SeckillResult<Long> time(){
         Date now = new Date();
-        System.out.println("-------------------now:"+now.toString());
+        log.info("now--------{}",now);
         return new SeckillResult<Long>(true, now.getTime());
     }
 

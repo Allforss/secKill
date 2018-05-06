@@ -56,6 +56,7 @@ public class SeckillServiceImpl implements SeckillService {
 
     @Override
     public Exposer exposeSeckillUrl(long goodsId) {
+        log.info("enter exposeSeckillUrl,入参：goodsId={}",goodsId);
         SeckillGoods seckillGoods = goodsRedis.getSeckillGoods(goodsId);
         if(null == seckillGoods){
             seckillGoods = goodsService.queryById(goodsId);
@@ -73,8 +74,11 @@ public class SeckillServiceImpl implements SeckillService {
                     startTime.getTime(), endTime.getTime());
         }
         String md5 = MD5Util.getMD5(goodsId);
-        return new Exposer(true, md5, goodsId, nowTime.getTime(),
+        System.out.println("MD5=" + md5);
+        Exposer exposer = new Exposer(true, md5, goodsId, nowTime.getTime(),
                 startTime.getTime(), endTime.getTime());
+        log.info("exposeSeckillUrl出参：exposer={}",exposer);
+        return exposer;
     }
 
     @Override

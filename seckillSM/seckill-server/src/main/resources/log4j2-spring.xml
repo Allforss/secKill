@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration>
+<!-- 
+	status -用于设置log4j2自身内部的信息输出,默认'warn';当设置成trace时,会输出log4j2内部各种详细信息
+	monitorInterval -log4j能够自动检测修改配置文件和重新配置本身,设置间隔秒数
+	additivity="false" -属性被设置为false，顶层或父层的appender将不再记录程序包输出的日志信息
+	
+	[日志级别]
+	trace -追踪
+	debug -调试,一般作为最低级别,trace基本不用
+	info  -输出重要的信息
+	warn  -警告,有些信息不是错误信息,但也要给程序员一些提示
+	error -错误信息
+	fatal -致命错误,级别较高
+ -->
+<configuration status="warn" monitorInterval="60">
+	<properties>
+		<property name="PATTERN">%d{yyyy-MM-dd HH:mm:ss.SSS} %5p --- ${thread:-}[%15.15t] %40.40c{1.} : %m%n</property>
+		<property name="CONSOLE_PATTERN">%d{yyyy-MM-dd HH:mm:ss.SSS} %highlight{%5p}{FATAL=red blink, ERROR=red, WARN=yellow bold, INFO=gray, DEBUG=green bold, TRACE=blue} --- ${thread:-}[%15.15t] %style{%40.40c{1.}}{Cyan} : %m%n</property>
+		<!-- prod -->
+    		<!-- 
+    		<property name="ROOTPATH">deploy/logs</property>
+    		 -->
+    		<!-- local -->
+		<!--<property name="ROOTPATH">/home/log</property>-->
+		<property name="ROOTPATH">../log</property>
+    </properties>
+	<appenders>
+		<CONSOLE name="CONSOLE" target="SYSTEM_OUT">
+			<PatternLayout
+				pattern="${CONSOLE_PATTERN}" />
+		</CONSOLE>
+
+		<!-- 打印ERROR及以下级别的信息,超过size,则该size大小的日志会自动存入按年份-月份建立的文件夹下面并进行压缩存档 -->
+		<RollingFile name="FILE_ERROR"
+                     fileName="${ROOTPATH}/paysettle/web/error/error.log"
+                     filePattern="${ROOTPATH}/paysettle/web/error/%d{yyyy-MM}/error-%d{yyyy-MM-dd}-%d{HH}-%i.log">
+            <ThresholdFilter level="ERROR" onMatch="ACCEPT" onMismatch="DENY"/>
+            <PatternLayout pattern="${PATTERN}"/>
+            <Policies>
+				<TimeBasedTriggeringPolicy/>
+				<SizeBasedTriggeringPolicy size="100MB"/>
+			</Policies>
+        </RollingFile>
+		
+		<!-- 打印WARN及以下级别的信息,超过size,则该size大小的日志会自动存入按年份-月份建立的文件夹下面并进行压缩存档 -->
+		<RollingFile name="FILE_WARN"
+			fileName="${ROOTPATH}/paysettle/web/warn/warn.log"
+			filePattern="${ROOTPATH}/paysettle/web/warn/%d{yyyy-MM}/warn-%d{yyyy-MM-dd}-%d{HH}-%i.log">
+            <ThresholdFilter level="WARN" onMatch="ACCEPT" onMismatch="DENY"/>
+            <PatternLayout pattern="${PATTERN}"/>
+            <Policies>
+				<TimeBasedTriggeringPolicy/>
+				<SizeBasedTriggeringPolicy size="100MB"/>
+            </Policies>
+        </RollingFile>
+		
+		<!-- 打印INFO及以下级别的信息,超过size,则该size大小的日志会自动存入按年份-月份建立的文件夹下面并进行压缩存档 -->
+		<RollingFile name="FILE_INFO"
+			fileName="${ROOTPATH}/paysettle/web/info/info.log"
+			filePattern="${ROOTPATH}/paysettle/web/info/%d{yyyy-MM}/info-%d{yyyy-MM-dd}-%d{HH}-%i.log">
+			<ThresholdFilter level="INFO" onMatch="ACCEPT" onMismatch="DENY" />
+			<PatternLayout pattern="${PATTERN}"/>
+			<Policies>
+				<TimeBasedTriggeringPolicy/>
+				<SizeBasedTriggeringPolicy size="100MB"/>
+			</Policies>
+		</RollingFile>
+		
+		<!-- 打印DEBUG及以下级别的信息,超过size,则该size大小的日志会自动存入按年份-月份建立的文件夹下面并进行压缩存档 -->
+		<RollingFile name="FILE_DEBUG"
+			fileName="${ROOTPATH}/paysettle/web/debug/debug.log"
+			filePattern="${ROOTPATH}/paysettle/web/debug/%d{yyyy-MM}/debug-%d{yyyy-MM-dd}-%d{HH}-%i.log">
+            <ThresholdFilter level="DEBUG" onMatch="ACCEPT" onMismatch="DENY"/>
+            <PatternLayout pattern="${PATTERN}"/>
+            <Policies>
+				<TimeBasedTriggeringPolicy/>
+				<SizeBasedTriggeringPolicy size="100MB"/>
+			</Policies>
+        </RollingFile>
+		
+
+	</appenders>
+	
+	<!-- Loggers配置 -->
+	<loggers>
+		<!-- Must Fix Logger Level List [Start] -->
+		<logger name="org.apache.ibatis.io" level="INFO" />
+		<logger name="org.hibernate.validator" level="INFO" />
+		<logger name="com.mchange.v2" level="INFO" />
+		<logger name="org.springframework.boot.actuate" level="INFO" />
+		<logger name="org.quartz.impl.jdbcjobstore" level="INFO" />
+		<logger name="com.ctrip.framework.apollo" level="INFO" />
+		<logger name="druid.sql" level="INFO" />
+		<!-- Must Fix Logger Level List [End] -->
+		
+		
+		<!-- Fix Main Tools Logger Level -->
+		<logger name="org.springframework" level="INFO" />
+		<logger name="druid.sql.Statement" level="DEBUG" additivity="false">
+			<appender-ref ref="CONSOLE"/>
+		</logger>
+		<logger name="druid.sql.ResultSet" level="WARN" additivity="false">
+			<appender-ref ref="CONSOLE"/>
+		</logger>
+		
+		
+		<!-- Fix Business Logger Level -->
+
+		<logger name="com.xiaoying.framework.cache.RedisCacheClient" level="INFO"/>
+		<logger name="com.xiaoying" level="DEBUG"/>
+		<logger name="feign" level="DEBUG"/>
+
+		
+		<!-- Fix Root Level -->
+		<root level="INFO">
+			<appender-ref ref="CONSOLE" />
+			<appender-ref ref="FILE_ERROR" />
+			<appender-ref ref="FILE_WARN" />
+			<appender-ref ref="FILE_INFO" />
+			<appender-ref ref="FILE_DEBUG" />
+		</root>
+	</loggers>
+</configuration>

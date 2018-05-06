@@ -1,8 +1,10 @@
 package com.sukidesu.common.dto;
 
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
 
 /**
  * 暴露秒杀地址DTO
@@ -10,19 +12,22 @@ import lombok.NoArgsConstructor;
  *
  */
 @NoArgsConstructor
+@AllArgsConstructor
 @Data
 public class Exposer {
 
 	private boolean exposed;
-	
+
 	private String md5;
-	
+
 	private long goodsId;
-	
+
+	private String userId;
+
 	private long now;
-	
+
 	private long start;
-	
+
 	private long end;
 
 	public Exposer(boolean exposed, String md5, long goodsId) {
@@ -41,10 +46,10 @@ public class Exposer {
 		this.end = end;
 	}
 
-	public Exposer(boolean exposed,String md5, long goodsId, long now, long start, long end) {
+	public Exposer(boolean exposed, String md5, long goodsId, long now, long start, long end) {
 		super();
-		this.md5 = md5;
 		this.exposed = exposed;
+		this.md5 = md5;
 		this.goodsId = goodsId;
 		this.now = now;
 		this.start = start;
@@ -56,6 +61,6 @@ public class Exposer {
 		this.exposed = exposed;
 		this.goodsId = goodsId;
 	}
-	
-	
+
+
 }

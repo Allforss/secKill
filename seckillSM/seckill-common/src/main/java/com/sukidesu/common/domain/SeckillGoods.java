@@ -1,7 +1,8 @@
 package com.sukidesu.common.domain;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.datatype.joda.deser.LocalDateDeserializer;
+import com.sukidesu.common.common.Constants.Constants;
 import com.sukidesu.common.common.utils.CustomJsonDateDeserializer;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -36,10 +37,12 @@ public class SeckillGoods {
     private String description;
 
     /*秒杀开始时间*/
+    @JsonFormat(pattern = Constants.DateFormat.YYYY_MM_DD_HH24_MI_SS,timezone = Constants.TimeZone.ASIA_SHANGHAI )
     @JsonDeserialize(using = CustomJsonDateDeserializer.class)
     private Date startTime;
 
     /*秒杀结束时间*/
+    @JsonFormat(pattern = Constants.DateFormat.YYYY_MM_DD_HH24_MI_SS,timezone = Constants.TimeZone.ASIA_SHANGHAI )
     @JsonDeserialize(using = CustomJsonDateDeserializer.class)
     private Date endTime;
 

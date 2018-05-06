@@ -70,6 +70,7 @@ public class SeckillController {
         SeckillResult<Exposer> result = null;
         try {
             Exposer exposer = seckillService.exposeSeckillUrl(goodsId);
+            System.out.println("exposer=" + exposer);
             result = new SeckillResult<Exposer>(true, exposer);
 
         } catch (Exception e) {

@@ -13,13 +13,6 @@ var seckill={
 			return "/web/seckill/execution?goodsId="
 				+ goodsId + "&userId=" + userId + "&md5=" + md5;
 		}
-	},	
-	validatePhone : function(phone){
-		if(phone && phone.length == 11 && !isNaN(phone)){
-			return true;
-		}else{
-			return false;
-		}
 	},
 	handleSeckill : function(goodsId,node){
 		node.hide()
@@ -31,8 +24,9 @@ var seckill={
 				if(exposer['exposed']){
 					//开启秒杀
 					//获取秒杀地址
-					var md5 = exposer['md5']
-					var killUrl = seckill.URL.execution(goodsId, md5);
+					var md5 = exposer['md5'];
+					var userId = exposer['userId'];
+					var killUrl = seckill.URL.execution(goodsId, userId, md5);
 					console.log("killUrl:"+killUrl);
 					//绑定一次点击事件,防止用户重复点击
 					$('#killBtn').one("click",function(){
@@ -47,6 +41,7 @@ var seckill={
 								console.log("state:"+state);
 								console.log("stateInfo:"+stateInfo);
 								//显示秒杀结果
+                                $('#seckill-icon').hide();
 								node.html('<span class="label label-success">'+ stateInfo + '</span>')
 							}
 						});
@@ -64,19 +59,42 @@ var seckill={
 			}
 		});	
 	},
+	dateFormat: function (strDate) {
+		//将CST标准格式时间转化为yyyy-MM-dd HH:mm:ss
+        if(null==strDate || ""==strDate){
+            return "";
+        }
+        var dateStr=strDate.trim().split(" ");
+        var strGMT = dateStr[0]+" "+dateStr[1]+" "+dateStr[2]+" "+dateStr[5]+" "+dateStr[3]+" GMT+0800";
+        var date = new Date(Date.parse(strGMT));
+        var y = date.getFullYear();
+        var m = date.getMonth() + 1;
+        m = m < 10 ? ('0' + m) : m;
+        var d = date.getDate();
+        d = d < 10 ? ('0' + d) : d;
+        var h = date.getHours();
+        var minute = date.getMinutes();
+        minute = minute < 10 ? ('0' + minute) : minute;
+        var second = date.getSeconds();
+        second = second < 10 ? ('0' + second) : second;
+        return y+"-"+m+"-"+d+" "+h+":"+minute+":"+second;
+    },
 	countdown : function(goodsId,nowTime,startTime,endTime){
+		console.log("countdown------")
 		console.log("goodsId:"+goodsId);
 		console.log("nowTime:"+nowTime);
 		console.log("startTime:"+startTime);
 		console.log("endTime:"+endTime);
 		var seckillBox = $('#seckill-box');
 		//事件的判断
-		if(nowTime > endTime){
-			//秒杀结束
-			seckillBox.html('秒杀结束！');
+		if(nowTime >= endTime){
+            //秒杀结束
+            console.log("秒杀已经结束！");
+			seckillBox.html('秒杀已经结束！');
 		}else if(nowTime < startTime){
-			//秒杀未开始，计时事件绑定
-			var killTime = new Date(startTime-0 + 1000);
+            //秒杀未开始，计时事件绑定
+            console.log("秒杀未开始，开始计时!")
+			var killTime = new Date(startTime - 0 + 1000);
 			//alert("killTime:"+killTime);
 			seckillBox.countdown(killTime, function(event){
 				//时间格式
@@ -88,6 +106,8 @@ var seckill={
 			});
 		}else{
 			//秒杀中
+            console.log("秒杀进行中！")
+            $('#seckill-icon').hide();
 			seckill.handleSeckill(goodsId,seckillBox);
 		}
 	},
@@ -97,49 +117,33 @@ var seckill={
 		init : function(params) {
 			//手机验证和登录，计时交互
 			//规划交互流程
-			var userPhone = $.cookie('userPhone');
 			var startTime = params['startTime'];
 			var endTime = params['endTime'];
 			var goodsId = params['goodsId'];
-			console.log("startTime:"+startTime);
-			console.log("endTime:"+endTime);
-			console.log("userphone:"+userPhone);
-			//验证手机号
-			if(!seckill.validatePhone(userPhone)){
-				//绑定phone
-				//控制输出
-				var killPhoneModal = $('#killPhoneModal');
-				killPhoneModal.modal({
-					//显示弹出层
-					show:true,
-					backdrop:false, //禁止位置关闭
-					keyboard:false //关闭键盘事件
-				});
-				$('#killPhoneBtn').click(function(){
-					var inputPhone = $('#killPhoneKey').val();
-					console.log("inputPhone:"+inputPhone);
-					if(seckill.validatePhone(inputPhone)){
-						$.cookie('userPhone',inputPhone,{expires : 7, path :'/secKill' });
-						window.location.reload();
-					}else{
-						$('#killPhoneMessage').hide().html('<label class="label label-danger">手机号错误</label>').show(300);
-					}
-				});
-			}else{
-				//已经登录
-				//计时交互
-				$.get(seckill.URL.now(), function(result){
-					if(result && result['success']){
-						var nowTime = result['data'];
-						//事件判断，计时交互
-						seckill.countdown(goodsId,nowTime,startTime,endTime);
-					}else{
-						console.log("result:"+result);
-					}
-					
-				});
-			}
-			
+            console.log("startTime:"+ startTime);
+            console.log("endTime:"+ endTime);
+
+            startTime = seckill.dateFormat(startTime);
+            endTime = seckill.dateFormat(endTime);
+            console.log("startTime:"+ startTime);
+            console.log("endTime:"+ endTime);
+
+            startTime = new Date(startTime).getTime();
+            endTime = new Date(endTime).getTime();
+            console.log("startTime:"+ startTime);
+            console.log("endTime:"+ endTime);
+
+			//计时交互
+			$.get(seckill.URL.now(), function(result){
+				console.log("result=" + result['success']);
+				if(result && result['success']){
+					var nowTime = result['data'];
+					//事件判断，计时交互
+					seckill.countdown(goodsId,nowTime,startTime,endTime);
+				}else{
+					console.log("result:"+result);
+				}
+			});
 		}
 		
 	}

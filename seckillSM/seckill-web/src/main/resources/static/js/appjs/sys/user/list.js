@@ -30,6 +30,7 @@ function load(deptId) {
         // //发送到服务器的数据编码类型
         pageSize: 10, // 如果设置了分页，每页数据条数
         pageNumber: 1, // 如果设置了分布，首页页码
+        pageList: [15, 30, 60, 100],
         // "server"
         // queryParams: function (params) {
         //     console.log(params);
