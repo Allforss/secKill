@@ -13,9 +13,8 @@ import org.springframework.web.bind.annotation.*;
 /**
  * @author weixian.yan
  * @created on 15:16 2018/5/2
- * @description:
+ * @description: 秒杀服务Feign接口
  */
-@Service
 @FeignClient(value = "seckill-server")
 public interface SeckillService {
 

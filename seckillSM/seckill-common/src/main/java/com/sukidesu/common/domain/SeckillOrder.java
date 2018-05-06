@@ -18,19 +18,31 @@ public class SeckillOrder {
 
     /*订单id*/
     private String orderId;
+
     /*商品id*/
     private Long goodsId;
+
     /*用户id*/
     private String userId;
+
     /*订单状态，0---失败，1---成功, 2---已发货*/
     private Integer orderState;
+
     /*创建时间*/
     private LocalDateTime createTime;
+
     /*更新时间*/
     private LocalDateTime updateTime;
+
+    /*商品信息*/
+    private SeckillGoods goods;
+
+    /*买家信息*/
+    private User user;
 
     public SeckillOrder(Long goodsId, String userId){
         this.goodsId = goodsId;
         this.userId = userId;
     }
+
 }

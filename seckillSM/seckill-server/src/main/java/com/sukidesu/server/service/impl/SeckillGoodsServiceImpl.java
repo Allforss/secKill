@@ -2,7 +2,9 @@ package com.sukidesu.server.service.impl;
 
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
+import com.sukidesu.common.domain.MessageBean;
 import com.sukidesu.common.domain.SeckillGoods;
+import com.sukidesu.common.exception.BizException;
 import com.sukidesu.server.mapper.SeckillGoodsMapper;
 import com.sukidesu.server.service.SeckillGoodsService;
 import lombok.extern.log4j.Log4j;
@@ -26,22 +28,32 @@ public class SeckillGoodsServiceImpl implements SeckillGoodsService {
     private SeckillGoodsMapper goodsMapper;
 
     @Override
-    public int insertOne(SeckillGoods goods) {
-        int res = goodsMapper.insertOne(goods);
-        if(res <=0){
-
+    public MessageBean insertOne(SeckillGoods goods) {
+        int rowCount = goodsMapper.insertOne(goods);
+        if(rowCount <= 0){
+            return new MessageBean(new BizException("插入商品信息失败"));
         }
-        return 0;
+        goods = goodsMapper.selectOne(goods);
+        return new MessageBean(goods);
     }
 
     @Override
-    public int insertBatch(List<SeckillGoods> goodsList) {
-        return goodsMapper.insertBatch(goodsList);
+    public MessageBean insertBatch(List<SeckillGoods> goodsList) {
+        int rowCount = goodsMapper.insertBatch(goodsList);
+        if(rowCount <= 0){
+            return new MessageBean(new BizException("批量插入商品信息失败"));
+        }
+        return new MessageBean(goodsList);
     }
 
     @Override
-    public int update(SeckillGoods goods) {
-        return goodsMapper.update(goods);
+    public MessageBean update(SeckillGoods goods) {
+        int rowCount = goodsMapper.update(goods);
+        if(rowCount <= 0){
+            return new MessageBean(new BizException("更新商品信息失败"));
+        }
+        goods = goodsMapper.selectOne(goods);
+        return new MessageBean(goods);
     }
 
     @Override

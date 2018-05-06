@@ -2,6 +2,7 @@ package com.sukidesu.server.service;
 
 import com.github.pagehelper.Page;
 import com.sukidesu.common.common.page.PageList;
+import com.sukidesu.common.domain.MessageBean;
 import com.sukidesu.common.domain.SeckillGoods;
 
 import java.util.Date;
@@ -20,21 +21,21 @@ public interface SeckillGoodsService {
      * @param goods
      * @return
      */
-    int insertOne(SeckillGoods goods);
+    MessageBean insertOne(SeckillGoods goods);
 
     /**
      * 批量插入
      * @param goodsList
      * @return
      */
-    int insertBatch(List<SeckillGoods> goodsList);
+    MessageBean insertBatch(List<SeckillGoods> goodsList);
 
     /**
      * 更新
      * @param goods
      * @return
      */
-    int update(SeckillGoods goods);
+    MessageBean update(SeckillGoods goods);
 
     /**
      * 根据商品ID查询商品信息

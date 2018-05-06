@@ -5,6 +5,8 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 /**
  * @author weixian.yan
  * @created on 19:48 2018/4/25
@@ -34,6 +36,13 @@ public interface SeckillOrderMapper {
      * @return
      */
     SeckillOrder queryOrder(@Param("order") SeckillOrder order);
+
+    /**
+     * 查询订单集合
+     * @param order
+     * @return
+     */
+    List<SeckillOrder> queryList(@Param("order") SeckillOrder order);
 
 
 }

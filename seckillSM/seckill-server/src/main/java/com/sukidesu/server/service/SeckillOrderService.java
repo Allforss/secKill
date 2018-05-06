@@ -1,5 +1,7 @@
 package com.sukidesu.server.service;
 
+import com.github.pagehelper.Page;
+import com.sukidesu.common.domain.MessageBean;
 import com.sukidesu.common.domain.SeckillOrder;
 
 /**
@@ -21,7 +23,7 @@ public interface SeckillOrderService {
      * @param order
      * @return
      */
-    int update(SeckillOrder order);
+    MessageBean update(SeckillOrder order);
 
     /**
      * 查询订单
@@ -29,4 +31,13 @@ public interface SeckillOrderService {
      * @return
      */
     SeckillOrder queryOrder(SeckillOrder order);
+
+    /**
+     * 分页查询订单集合
+     * @param order
+     * @param offset
+     * @param limit
+     * @return
+     */
+    Page<SeckillOrder> queryList(SeckillOrder order, int offset, int limit, String orderBy);
 }

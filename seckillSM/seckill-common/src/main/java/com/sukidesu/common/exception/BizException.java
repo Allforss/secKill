@@ -26,4 +26,11 @@ public class BizException extends RuntimeException {
             this.desc = desc;
         }
     }
+
+    public BizException(String desc){
+        super();
+        if(!Objects.isNull(desc)){
+            this.desc = desc;
+        }
+    }
 }

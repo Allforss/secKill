@@ -4,7 +4,7 @@
 <mapper namespace="com.sukidesu.server.mapper.SeckillOrderMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="baseResultMap" type="com.sukidesu.common.domain.SeckillOrder">
+    <resultMap id="seckillOrder" type="com.sukidesu.common.domain.SeckillOrder">
         <!-- 订单id -->
         <id column="FstrOrderId" property="orderId"/>
         <!-- 商品id -->
@@ -17,11 +17,54 @@
         <result column="FstrCreateTime" property="createTime"/>
         <!-- 更新时间 -->
         <result column="FstrUpdateTime" property="updateTime"/>
+        <!-- 嵌套另一个类SeckillGoods-->
+        <association property="goods" resultMap="seckillGoods"/>
+        <!-- 买家信息-->
+        <association property="user" resultMap="user"/>
+    </resultMap>
+    
+    <resultMap id="seckillGoods" type="com.sukidesu.common.domain.SeckillGoods">
+        <!-- 商品id -->
+        <id column="FuiGoodsId" property="goodsId"/>
+        <!-- 商品名 -->
+        <result column="FstrName" property="name"/>
+        <!-- 库存-->
+        <result column="FuiNumber" property="number"/>
+        <!-- 价格-->
+        <result column="FuiPrice" property="price"/>
+        <!-- 描述-->
+        <result column="FstrDescription" property="description"/>
+        <!-- 开始时间-->
+        <result column="FstrStartTime" property="startTime"/>
+        <!-- 结束时间-->
+        <result column="FstrEndTime" property="endTime"/>
+        <!-- 创建时间-->
+        <result column="FstrCreateTime" property="createTime"/>
+        <!-- 更新时间-->
+        <result column="FstrUpdateTime" property="updateTime"/>
+    </resultMap>
+
+    <resultMap id="user" type="com.sukidesu.common.domain.User">
+        <!-- 用户id -->
+        <result column="FstrUserId" property="userId"/>
+        <!-- 姓名 -->
+        <result column="UserName" property="name"/>
+        <!-- 账号 -->
+        <result column="FstrAccount" property="account"/>
+        <!-- 邮箱 -->
+        <result column="FstrEmail" property="email"/>
+        <!--电话-->
+        <result column="FstrUserPhone" property="userPhone"/>
+        <!--地址-->
+        <result column="FstrAddress" property="address"/>
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="baseColumnList">
-      FstrOrderId, FuiGoodsId, FstrUserId, FuiOrderState, FstrCreateTime, FstrUpdateTime
+      so.FstrOrderId, so.FuiGoodsId, so.FstrUserId, so.FuiOrderState, so.FstrCreateTime, so.FstrUpdateTime,
+      sg.FuiGoodsId, sg.FstrName, sg.FuiNumber, sg.FuiPrice, sg.FstrDescription,
+      sg.FstrStartTime, sg.FstrEndTime, sg.FstrCreateTime, sg.FstrUpdateTime,
+      u.FstrUserId, u.FstrName as UserName, u.FstrAccount, u.FstrEmail, u.FstrUserPhone, u.FstrAddress
     </sql>
 
     <insert id="insert">
@@ -56,9 +99,24 @@
         WHERE FstrOrderId = #{order.orderId}
     </update>
     
-    <select id="queryOrder" resultMap="baseResultMap">
+    <select id="queryOrder" resultMap="seckillOrder">
         SELECT <include refid="baseColumnList"/>
-        FROM t_seckill_order
+        FROM t_seckill_order so INNER JOIN t_seckill_goods sg ON so.FuiGoodsId = sg.FuiGoodsId
+          INNER JOIN t_user u ON so.FstrUserId = u.FstrUserId
+        <where>
+            <if test="order.orderId != null">AND FstrOrderId = #{order.orderId}</if>
+            <if test="order.goodsId != null">AND FuiGoodsId = #{order.goodsId}</if>
+            <if test="order.userId != null">AND FstrUserId = #{order.userId}</if>
+            <if test="order.orderState != null">AND FuiOrderState = #{order.orderState}</if>
+            <if test="order.createTime != null">AND FstrCreateTime = #{order.createTime}</if>
+            <if test="order.updateTime != null">AND FstrUpdateTime = #{order.updateTime}</if>
+        </where>
+    </select>
+    
+    <select id="queryList" resultMap="seckillOrder">
+        SELECT <include refid="baseColumnList"/>
+        FROM t_seckill_order so INNER JOIN t_seckill_goods sg ON so.FuiGoodsId = sg.FuiGoodsId
+        INNER JOIN t_user u ON so.FstrUserId = u.FstrUserId
         <where>
             <if test="order.orderId != null">AND FstrOrderId = #{order.orderId}</if>
             <if test="order.goodsId != null">AND FuiGoodsId = #{order.goodsId}</if>
