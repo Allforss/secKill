@@ -40,7 +40,12 @@ dependencies {
 	compile("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.8.10")
 	compile('com.fasterxml.jackson.datatype:jackson-datatype-joda:2.8.10')
 
-	compile("com.alibaba:druid-spring-boot-starter:1.1.6")
+	compile('com.fasterxml.jackson.core:jackson-annotations:2.9.0')
+    compile('com.fasterxml.jackson.core:jackson-databind:2.9.0')
+    compile('com.fasterxml.jackson.core:jackson-core:2.9.0')
+
+
+    compile("com.alibaba:druid-spring-boot-starter:1.1.6")
 
 	testCompile('org.springframework.boot:spring-boot-starter-test')
 }

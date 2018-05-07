@@ -10,6 +10,7 @@ import com.sukidesu.seckill.base.model.MessageBean;
 import com.sukidesu.seckill.base.model.RoleModel;
 import com.sukidesu.seckill.base.service.RoleService;
 import com.sukidesu.seckill.base.shiro.ShiroUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -25,6 +26,7 @@ import java.util.stream.Collectors;
  * @author xudong.cheng
  * @date 2018/1/19 下午2:08
  */
+@Slf4j
 @Controller
 @RequestMapping("/sys/role")
 public class RoleController extends BaseController {
@@ -53,7 +55,7 @@ public class RoleController extends BaseController {
 
     @Log("添加角色页面")
     @RequiresPermissions("sys:role:add")
-    @RequestMapping(value = "add", method = RequestMethod.GET)
+    @RequestMapping(value = "/add", method = RequestMethod.GET)
     public String toAdd() {
         return "sys/role/add";
     }
@@ -61,7 +63,7 @@ public class RoleController extends BaseController {
     @Log("添加角色")
     @ResponseBody
     @RequiresPermissions("sys:role:add")
-    @RequestMapping(value = "add", method = RequestMethod.POST)
+    @RequestMapping(value = "/add", method = RequestMethod.POST)
     public MessageBean add(Role role) {
         return this.process(() -> {
             User currentUser = ShiroUtil.getCurrentUser();
@@ -72,7 +74,7 @@ public class RoleController extends BaseController {
 
     @Log("修改角色页面")
     @RequiresPermissions("sys:role:edit")
-    @RequestMapping(value = "edit/{roleId}", method = RequestMethod.GET)
+    @RequestMapping(value = "/edit/{roleId}", method = RequestMethod.GET)
     public String toEdit(@PathVariable("roleId") String roleId, Model model) {
         Role role = roleService.getWithPerms(Role.builder().roleId(roleId).build());
         model.addAttribute("role", role);
@@ -83,11 +85,23 @@ public class RoleController extends BaseController {
     @Log("修改角色")
     @ResponseBody
     @RequiresPermissions("sys:role:edit")
-    @RequestMapping(value = "edit", method = RequestMethod.POST)
+    @RequestMapping(value = "/edit", method = RequestMethod.POST)
     public MessageBean edit(Role role) {
         return this.process(() -> {
             return null;
         });
+    }
+
+    @Log("更新角色")
+    @ResponseBody
+    @RequiresPermissions("sys:role:update")
+    @RequestMapping(value = "/update", method = RequestMethod.POST)
+    public MessageBean update(Role role){
+        log.info("RoleController.update入参：role={}",role);
+        return this.process(() ->{
+            return null;
+        });
+
     }
 
 }

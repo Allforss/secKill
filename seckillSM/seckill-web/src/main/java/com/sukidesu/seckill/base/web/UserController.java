@@ -17,11 +17,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.util.CollectionUtils;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 import java.util.stream.Collectors;
 
 /**
@@ -84,8 +85,15 @@ public class UserController extends BaseController {
     }
 
     @Log("修改用户页面")
-    @RequestMapping(value = "edit", method = RequestMethod.GET)
-    public String toEdit() {
+    @RequestMapping(value = "edit/{id}", method = RequestMethod.GET)
+    public String toEdit(@PathVariable("id") String id, Model model) {
+        User user = new User();
+        user.setUserId(id);
+        List<User> userList = userService.findList(user);
+        if(!CollectionUtils.isEmpty(userList)){
+            user = userList.get(0);
+        }
+        model.addAttribute("user", user);
         return "sys/user/edit";
     }
 

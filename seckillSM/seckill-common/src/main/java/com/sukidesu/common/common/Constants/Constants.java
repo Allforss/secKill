@@ -22,6 +22,8 @@ public class Constants {
 
 	public static final String ORDER_BY_CREATETIME_DESC = "FstrCreateTime DESC";
 
+	public static final String ORDER_BY_GOODSID_ASC = "FuiGoodsId ASC";
+
 	public static final String ORDER_BY_SO_CREATETIME_DESC = "so.FstrCreateTime DESC";
 
 	/**

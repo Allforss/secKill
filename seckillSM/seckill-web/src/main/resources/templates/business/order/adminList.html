@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <th:block th:include="include :: header"/>
+    <th:block th:include="include :: table_header"/>
+</head>
+<body class="gray-bg">
+<div class="wrapper wrapper-content ">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-content">
+                    <div class="col-xs-5 col-sm-3">
+                        <div class="form-group">
+                            <input class="form-control" th:name="name" th:type="text" id="name" placeholder="搜索商品名"/>
+                        </div>
+                    </div>
+                    <div class="col-md-2 ">
+                        <button type="button" class="btn btn-primary" onclick="searchByName()">
+                            搜索
+                        </button>
+                    </div>
+                    <table id="exampleTable" data-mobile-responsive="true">
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<th:block th:include="include :: footer"/>
+<th:block th:include="include :: table_footer"/>
+<script type="text/javascript" th:src="@{/static/js/appjs/business/order/adminList.js}"></script>
+</body>
+</html>

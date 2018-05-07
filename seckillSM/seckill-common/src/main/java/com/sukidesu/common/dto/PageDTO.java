@@ -20,6 +20,6 @@ public class PageDTO<T> {
 
     private int limit;
 
-
+    private String orderBy;
 }
 

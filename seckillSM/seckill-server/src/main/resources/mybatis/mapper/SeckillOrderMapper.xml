@@ -8,15 +8,15 @@
         <!-- 订单id -->
         <id column="FstrOrderId" property="orderId"/>
         <!-- 商品id -->
-        <result column="FuiGoodsId" property="goodsId"/>
+        <result column="OrderGoodsId" property="goodsId"/>
         <!-- 用户id -->
-        <result column="FstrUserId" property="userId"/>
+        <result column="OrderUserId" property="userId"/>
         <!-- 订单状态 -->
         <result column="FuiOrderState" property="orderState"/>
         <!-- 创建时间 -->
-        <result column="FstrCreateTime" property="createTime"/>
+        <result column="OrderCreateTime" property="createTime"/>
         <!-- 更新时间 -->
-        <result column="FstrUpdateTime" property="updateTime"/>
+        <result column="OrderUpdateTime" property="updateTime"/>
         <!-- 嵌套另一个类SeckillGoods-->
         <association property="goods" resultMap="seckillGoods"/>
         <!-- 买家信息-->
@@ -25,7 +25,7 @@
     
     <resultMap id="seckillGoods" type="com.sukidesu.common.domain.SeckillGoods">
         <!-- 商品id -->
-        <id column="FuiGoodsId" property="goodsId"/>
+        <id column="GoodsId" property="goodsId"/>
         <!-- 商品名 -->
         <result column="FstrName" property="name"/>
         <!-- 库存-->
@@ -39,14 +39,14 @@
         <!-- 结束时间-->
         <result column="FstrEndTime" property="endTime"/>
         <!-- 创建时间-->
-        <result column="FstrCreateTime" property="createTime"/>
+        <result column="GoodsCreateTime" property="createTime"/>
         <!-- 更新时间-->
-        <result column="FstrUpdateTime" property="updateTime"/>
+        <result column="GoddsUpdateTime" property="updateTime"/>
     </resultMap>
 
     <resultMap id="user" type="com.sukidesu.common.domain.User">
         <!-- 用户id -->
-        <result column="FstrUserId" property="userId"/>
+        <result column="UserId" property="userId"/>
         <!-- 姓名 -->
         <result column="UserName" property="name"/>
         <!-- 账号 -->
@@ -61,10 +61,11 @@
 
     <!-- 通用查询结果列 -->
     <sql id="baseColumnList">
-      so.FstrOrderId, so.FuiGoodsId, so.FstrUserId, so.FuiOrderState, so.FstrCreateTime, so.FstrUpdateTime,
-      sg.FuiGoodsId, sg.FstrName, sg.FuiNumber, sg.FuiPrice, sg.FstrDescription,
-      sg.FstrStartTime, sg.FstrEndTime, sg.FstrCreateTime, sg.FstrUpdateTime,
-      u.FstrUserId, u.FstrName as UserName, u.FstrAccount, u.FstrEmail, u.FstrUserPhone, u.FstrAddress
+      so.FstrOrderId, so.FuiGoodsId as OrderGoodsId, so.FstrUserId as OrderUserId, so.FuiOrderState,
+      so.FstrCreateTime as OrderCreateTime, so.FstrUpdateTime as OrderUpdateTime,
+      sg.FuiGoodsId as GoodsId, sg.FstrName, sg.FuiNumber, sg.FuiPrice, sg.FstrDescription,
+      sg.FstrStartTime, sg.FstrEndTime, sg.FstrCreateTime as GoodsCreateTime, sg.FstrUpdateTime as GoodsUpdateTime,
+      u.FstrUserId as UserId, u.FstrName as UserName, u.FstrAccount, u.FstrEmail, u.FstrUserPhone, u.FstrAddress
     </sql>
 
     <insert id="insert">
@@ -104,12 +105,13 @@
         FROM t_seckill_order so INNER JOIN t_seckill_goods sg ON so.FuiGoodsId = sg.FuiGoodsId
           INNER JOIN t_user u ON so.FstrUserId = u.FstrUserId
         <where>
-            <if test="order.orderId != null">AND FstrOrderId = #{order.orderId}</if>
-            <if test="order.goodsId != null">AND FuiGoodsId = #{order.goodsId}</if>
-            <if test="order.userId != null">AND FstrUserId = #{order.userId}</if>
-            <if test="order.orderState != null">AND FuiOrderState = #{order.orderState}</if>
-            <if test="order.createTime != null">AND FstrCreateTime = #{order.createTime}</if>
-            <if test="order.updateTime != null">AND FstrUpdateTime = #{order.updateTime}</if>
+            <if test="order.orderId != null">AND so.FstrOrderId = #{order.orderId}</if>
+            <if test="order.goodsId != null">AND so.FuiGoodsId = #{order.goodsId}</if>
+            <if test="order.userId != null">AND so.FstrUserId = #{order.userId}</if>
+            <if test="order.orderState != null">AND so.FuiOrderState = #{order.orderState}</if>
+            <if test="order.createTime != null">AND so.FstrCreateTime = #{order.createTime}</if>
+            <if test="order.updateTime != null">AND so.FstrUpdateTime = #{order.updateTime}</if>
+            <if test="order.goods != null and order.goods.name != null">AND sg.FstrName = #{order.goods.name}</if>
         </where>
     </select>
     
@@ -118,12 +120,13 @@
         FROM t_seckill_order so INNER JOIN t_seckill_goods sg ON so.FuiGoodsId = sg.FuiGoodsId
         INNER JOIN t_user u ON so.FstrUserId = u.FstrUserId
         <where>
-            <if test="order.orderId != null">AND FstrOrderId = #{order.orderId}</if>
-            <if test="order.goodsId != null">AND FuiGoodsId = #{order.goodsId}</if>
-            <if test="order.userId != null">AND FstrUserId = #{order.userId}</if>
-            <if test="order.orderState != null">AND FuiOrderState = #{order.orderState}</if>
-            <if test="order.createTime != null">AND FstrCreateTime = #{order.createTime}</if>
-            <if test="order.updateTime != null">AND FstrUpdateTime = #{order.updateTime}</if>
+            <if test="order.orderId != null">AND so.FstrOrderId = #{order.orderId}</if>
+            <if test="order.goodsId != null">AND so.FuiGoodsId = #{order.goodsId}</if>
+            <if test="order.userId != null">AND so.FstrUserId = #{order.userId}</if>
+            <if test="order.orderState != null">AND so.FuiOrderState = #{order.orderState}</if>
+            <if test="order.createTime != null">AND so.FstrCreateTime = #{order.createTime}</if>
+            <if test="order.updateTime != null">AND so.FstrUpdateTime = #{order.updateTime}</if>
+            <if test="order.goods != null and order.goods.name != null">AND sg.FstrName like "%"#{order.goods.name}"%"</if>
         </where>
     </select>
 

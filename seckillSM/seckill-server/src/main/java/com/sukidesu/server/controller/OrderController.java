@@ -23,8 +23,6 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/order")
 public class OrderController {
 
-    private static final String ORDERBY = Constants.ORDER_BY_SO_CREATETIME_DESC;
-
     @Autowired
     private SeckillOrderService orderService;
 
@@ -34,8 +32,9 @@ public class OrderController {
         SeckillOrder order = pageDTO.getModel();
         int offset = pageDTO.getOffset();
         int limit = pageDTO.getLimit();
-        Page<SeckillOrder> page = orderService.queryList(order, offset, limit, ORDERBY);
-        log.info("出参：SeckillOrder={}",page.getResult().get(0));
+        String orderBy = pageDTO.getOrderBy();
+        Page<SeckillOrder> page = orderService.queryList(order, offset, limit, orderBy);
+        log.info("出参：SeckillOrder={}",page.getResult());
         PageList<SeckillOrder> result = new PageList<>(page.getTotal(), page.getResult());
         log.info("JSON序列化result={}", JSON.toJSONString(result));
         return result;

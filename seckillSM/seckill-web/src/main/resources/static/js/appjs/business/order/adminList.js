@@ -12,7 +12,7 @@ function load() {
     $('#exampleTable').bootstrapTable({
         height: getHeight(),
         method: 'post', // 服务器数据的请求方式 get or post
-        url: prefix + "/user/queryList", // 服务器数据的加载地址
+        url: prefix + "/admin/queryList", // 服务器数据的加载地址
         contentType : "application/x-www-form-urlencoded",
         // search: true, // 是否显示搜索框
         // formatSearch: function () {
@@ -20,8 +20,8 @@ function load() {
         // },
         showRefresh: true,
         // showToggle: true,
-        showColumns: false,
-        showExport: false,
+        showColumns: true,
+        showExport: true,
         sidePagination: "server", // 设置在哪里进行分页，可选值为"client" 或者
         iconSize: 'outline',
         toolbar: '#toolbar',
@@ -71,6 +71,14 @@ function load() {
                 return formatMoney((parseFloat(value)/ 100).toFixed(2));
             }
         },{
+            field: 'user.userId',
+            title: '用户id',
+            align: 'center',
+        }, {
+            field: 'user.name',
+            title: '用户姓名',
+            align: 'center',
+        }, {
             field: 'user.userPhone',
             title: '联系电话',
             align: 'center',
@@ -95,7 +103,38 @@ function load() {
             field: 'createTime',
             title: '下单时间',
             align: 'center',
+        },{
+            field: 'orderId',
+            title: '操作',
+            align: 'center',
+            formatter: function (value, row, index) {
+                var orderState = row.orderState;
+                var orderId = row.orderId;
+                console.log("orderId=" + orderId);
+                var e = "";
+                if(2==orderState){
+                    e = '<a class="btn btn-info" th:href="#">已发货</a>';
+                } else if(1 == orderState){
+                    e = '<a class="btn btn-info" th:href="#" onclick="changeState(\'' +
+                        orderId + '\')">发货</a>';
+                }
+                return e ;
+            }
         }]
+    });
+}
+
+function changeState(orderId){
+    console.log("changeState orderId=" + orderId);
+    var url = "/web/order/update";
+    var params = {"orderId":orderId,"orderState":2};
+    $.post(url,params,function (result) {
+        if(result && result.state == 1){
+            alert("发货成功！");
+            reLoad();
+        } else {
+            alert("发货失败，请稍后重试！");
+        }
     });
 }
 

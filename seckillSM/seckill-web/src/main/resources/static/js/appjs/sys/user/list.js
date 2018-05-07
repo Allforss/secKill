@@ -58,7 +58,7 @@ function load(deptId) {
             checkbox: true
         }, {
             field: 'userId', // 列字段名
-            title: '编号' // 列标题
+            title: '用户id' // 列标题
         }, {
             field: 'name',
             title: '姓名'

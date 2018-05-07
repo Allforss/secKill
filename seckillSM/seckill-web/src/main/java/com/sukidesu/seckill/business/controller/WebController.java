@@ -1,5 +1,6 @@
 package com.sukidesu.seckill.business.controller;
 
+import com.sukidesu.common.common.Constants.Constants;
 import com.sukidesu.common.domain.SeckillGoods;
 import com.sukidesu.common.dto.Exposer;
 import com.sukidesu.common.dto.PageDTO;
@@ -31,6 +32,8 @@ import java.util.Date;
 @RequestMapping("/web/seckill")
 public class WebController extends BaseController{
 
+    private static final String ORDERBY = Constants.ORDER_BY_CREATETIME_DESC;
+
     @Autowired
     private SeckillService seckillService;
 
@@ -57,7 +60,7 @@ public class WebController extends BaseController{
             limit = 10;
         }
         SeckillGoods goods = new SeckillGoods(name);
-        PageDTO<SeckillGoods> pageDTO = new PageDTO<>(goods, offset, limit);
+        PageDTO<SeckillGoods> pageDTO = new PageDTO<>(goods, offset, limit, ORDERBY);
         return this.process(() -> {
             PageList<SeckillGoods> page = seckillService.pageList(pageDTO);
             log.info("pageList出参：page={}",page);

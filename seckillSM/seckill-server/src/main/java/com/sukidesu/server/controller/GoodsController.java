@@ -27,8 +27,6 @@ import java.util.List;
 @RequestMapping("/goods")
 public class GoodsController {
 
-    private static final String ORDERBY = Constants.ORDER_BY_CREATETIME_DESC;
-
     @Autowired
     private SeckillGoodsService goodsService;
 
@@ -62,7 +60,8 @@ public class GoodsController {
         SeckillGoods goods = pageDTO.getModel();
         int offset = pageDTO.getOffset();
         int limit = pageDTO.getLimit();
-        Page<SeckillGoods> page = goodsService.selectList(goods, offset, limit, ORDERBY);
+        String orderby = pageDTO.getOrderBy();
+        Page<SeckillGoods> page = goodsService.selectList(goods, offset, limit, orderby);
         log.info("出参：page={}",page);
         PageList<SeckillGoods> result = new PageList<SeckillGoods>(page.getTotal(), page.getResult());
         log.info("JSON序列化result={}", JSON.toJSONString(result));

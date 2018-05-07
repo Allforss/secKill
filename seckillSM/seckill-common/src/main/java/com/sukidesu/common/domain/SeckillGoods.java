@@ -47,9 +47,11 @@ public class SeckillGoods {
     private Date endTime;
 
     /*创建时间*/
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = Constants.DateFormat.YYYY_MM_DD_HH24_MI_SS)
     private LocalDateTime createTime;
 
     /*更新时间*/
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = Constants.DateFormat.YYYY_MM_DD_HH24_MI_SS)
     private LocalDateTime updateTime;
 
     public SeckillGoods(String name){

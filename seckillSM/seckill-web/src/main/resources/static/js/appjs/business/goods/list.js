@@ -1,4 +1,4 @@
-var prefix = "/web/order";
+var prefix = "/web/goods";
 $(function () {
     load();
 });
@@ -12,7 +12,7 @@ function load() {
     $('#exampleTable').bootstrapTable({
         height: getHeight(),
         method: 'post', // 服务器数据的请求方式 get or post
-        url: prefix + "/user/queryList", // 服务器数据的加载地址
+        url: prefix + "/list", // 服务器数据的加载地址
         contentType : "application/x-www-form-urlencoded",
         // search: true, // 是否显示搜索框
         // formatSearch: function () {
@@ -56,48 +56,80 @@ function load() {
         // sortOrder.
         // 返回false将会终止请求
         columns: [{
-            field: 'orderId', // 列字段名
-            title: '订单id', // 列标题
+            field: 'goodsId', // 列字段名
+            title: '商品id', // 列标题
             align: 'center',
         }, {
-            field: 'goods.name',
+            field: 'name',
             title: '商品名',
             align: 'center',
         }, {
-            field: 'goods.price',
-            title: '价格（￥）',
+            field: 'number',
+            title: '库存',
+            align: 'center',
+        },{
+            field: 'price',
+            title: '秒杀价格',
             align: 'center',
             formatter:function (value, row, index) {
                 return formatMoney((parseFloat(value)/ 100).toFixed(2));
             }
+        }, {
+            field: 'description',
+            title: '商品描述',
+            align: 'center',
+        }, {
+            field: 'startTime',
+            title: '秒杀开始时间',
+            align: 'center',
         },{
-            field: 'user.userPhone',
-            title: '联系电话',
+            field: 'endTime',
+            title: '秒杀结束时间',
             align: 'center',
-        }, {
-            field: 'user.address',
-            title: '收货地址',
-            align: 'center',
-        }, {
-            field: 'orderState',
-            title: '订单状态',
-            align: 'center',
-            formatter:function (value, row, index) {
-                if(0==value){
-                    return "下单失败";
-                } else if(1 == value){
-                    return "下单成功";
-                } else{
-                    return "已发货";
-                }
-            }
         },{
             field: 'createTime',
-            title: '下单时间',
+            title: '创建时间',
             align: 'center',
+        },{
+            field: 'updateTime',
+            title: '更新时间',
+            align: 'center',
+        },{
+            field: 'goodsId',
+            title: '操作',
+            align: 'center',
+            formatter: function (value, row, index) {
+                var e = '<a  class="btn btn-primary btn-sm" href="#" mce_href="#" title="编辑" onclick="edit(\''
+                    + row.goodsId
+                    + '\')"><i class="fa fa-edit "></i></a> ';
+                return e ;
+            }
         }]
     });
 }
+function add() {
+    // iframe层
+    layer.open({
+        type: 2,
+        title: '增加商品',
+        maxmin: true,
+        shadeClose: false, // 点击遮罩关闭层
+        area: ['800px', '544px'],
+        content: prefix + '/add' // iframe的url
+    });
+}
+
+function edit(id) {
+    layer.open({
+        type: 2,
+        title: '商品修改',
+        maxmin: true,
+        shadeClose: false,
+        area: ['800px', '580px'],
+        content: prefix + '/edit/' + id // iframe的url
+    });
+}
+
 
 function searchByName() {
     var name = $('#name').val();
