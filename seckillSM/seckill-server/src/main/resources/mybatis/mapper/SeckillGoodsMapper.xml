@@ -93,7 +93,7 @@
 
     <update id="reduceNumberById">
         UPDATE t_seckill_goods
-        SET FuiNumber = FuiNumber - 1
+        SET FuiNumber = FuiNumber - 1,FstrUpdateTime = now()
         WHERE FuiGoodsId = #{goodsId}
         AND FstrStartTime <![CDATA[<=]]> #{killTime}
         AND FstrEndTime <![CDATA[>]]> #{killTime}

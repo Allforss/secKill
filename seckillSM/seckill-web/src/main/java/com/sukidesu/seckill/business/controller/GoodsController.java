@@ -13,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -56,7 +57,12 @@ public class GoodsController extends BaseController{
     @ResponseBody
     public MessageBean insertOne(SeckillGoods goods){
         log.info("GoodsController.insertOne 入参：goods={}",goods);
-        return goodsService.insertOne(goods);
+        goods.setPrice(goods.getPrice() * 100);//转化为分存储
+        goods.setCreateTime(LocalDateTime.now());
+        goods.setUpdateTime(LocalDateTime.now());
+        MessageBean result = goodsService.insertOne(goods);
+        log.info("result={}",result);
+        return result;
     }
 
     @PostMapping("/insertBatch")
@@ -70,7 +76,8 @@ public class GoodsController extends BaseController{
     @ResponseBody
     public MessageBean update(SeckillGoods goods){
         log.info("GoodsController.update 入参：goods={}",goods);
-        return goodsService.update(goods);
+        MessageBean result = goodsService.update(goods);
+        return result;
     }
 
     @PostMapping("/queryOne")

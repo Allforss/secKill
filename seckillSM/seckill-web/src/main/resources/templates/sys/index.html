@@ -23,16 +23,11 @@
                                     <strong class="font-bold">商品秒杀系统</strong>
                                 </span>
                                 <span class="text-muted text-xs block">
-                                    <!--/*@thymesVar id="currentUser" type="com.alice.pet.base.model.UserModel"*/-->
                                     <th:block th:text="${currentUser.name}"/> <b class="caret"></b>
                                 </span>
                             </span>
                         </a>
                         <ul class="dropdown-menu animated fadeInDown m-t-xs">
-                            <!--/*<li><a href="profile.html">Profile</a></li>
-                            <li><a href="contacts.html">Contacts</a></li>
-                            <li><a href="mailbox.html">Mailbox</a></li>
-                            <li class="divider"></li>*/-->
                             <li><a th:href="@{/logout}">Logout</a></li>
                         </ul>
                     </div>
@@ -40,7 +35,6 @@
                         SECKILL
                     </div>
                 </li>
-                <!--/*@thymesVar id="menus" type="java.util.List<com.alice.pet.base.domain.Menu>"*/-->
                 <li th:each="menu : ${menus}">
                     <a href="#">
                         <i th:class="${menu.icon}" style="width: 16px; text-align: center;"></i>
@@ -71,43 +65,8 @@
                     </a>
                 </div>
                 <ul class="nav navbar-top-links navbar-right">
-                    <!--/* <li class="hidden-xs">
-                        <a href="/blog" target="_Blank" class="">
-                            <i class="fa fa-rss-square"></i>博客
-                        </a>
-                    </li>
-                    <li class="dropdown">
-                        <a class="dropdown-toggle count-info" data-toggle="dropdown" href="#">
-                            <i class="fa fa-envelope"></i>
-                            <span class="label label-warning">{{total}}</span>通知
-                        </a>
-                        <ul class="dropdown-menu dropdown-messages">
-                            <li v-for="row in rows" class="m-t-xs">
-                                <div class="dropdown-messages-box">
-                                    <a class="pull-left">
-                                        <i class="fa fa-server"></i>
-                                    </a>
-                                    <div class="media-body">
-                                        <small class="pull-right">{{row.before}}</small>
-                                        <strong>{{row.sender}}</strong>
-                                        {{row.title}} <br/>
-                                        <small class="text-muted">{{row.updateDate}}</small>
-                                    </div>
-                                </div>
-                                <div class="divider"></div>
-                            </li>
-                            <li>
-                                <div class="text-center link-block">
-                                    <a class="J_menuItem" href="/oa/notify/selfNotify">
-                                        <i class="fa fa-envelope"></i>
-                                        <strong>查看所有消息</strong>
-                                    </a>
-                                </div>
-                            </li>
-                        </ul>
-                    </li>
-                    <li class="hidden-xs"><a @click="personal" href="#"><i class="fa fa-id-card"></i>个人</a></li> */-->
-                    <li class="dropdown hidden-xs">
+                    <li class="msg-wrap">
+                        <!--<span class="msg">消息<i id="msgNum">99+</i></span></li>                    <li class="dropdown hidden-xs">-->
                         <a class="right-sidebar-toggle" aria-expanded="false">
                             <i class="fa fa-tasks"></i> 主题
                         </a>
@@ -143,12 +102,6 @@
                     <li class="J_tabCloseOther"><a>关闭其他选项卡</a></li>
                 </ul>
             </div>
-            <!--<button class="roll-nav roll-right right-sidebar-toggle">
-                <i class="fa fa-tasks"></i>
-            </button>-->
-            <!--<a href="/logout" class="roll-nav roll-right J_tabExit">
-                <i class="fa fa fa-sign-out"></i> 退出
-            </a>-->
         </div>
         <div class="row J_mainContent" id="content-main">
             <iframe class="J_iframe" name="iframe0" width="100%" height="100%"
@@ -163,12 +116,6 @@
     <!--右侧边栏开始-->
     <div id="right-sidebar">
         <div class="sidebar-container">
-            <!--/*<ul class="nav nav-tabs navs-3">
-
-                <li class="active"><a data-toggle="tab" href="#tab-1"><i class="fa fa-gear"></i> 主题</a></li>
-                <li class=""><a data-toggle="tab" href="#tab-2"> 通知 </a></li>
-                <li><a data-toggle="tab" href="#tab-3"> 项目进度 </a></li>
-            </ul>*/-->
             <div class="tab-content">
                 <div id="tab-1" class="tab-pane active">
                     <div class="sidebar-title">
@@ -239,24 +186,6 @@
                         </div>
                     </div>
                 </div>
-                <!--/*<div id="tab-2" class="tab-pane">
-
-                    <div class="sidebar-title">
-                        <h3>
-                            <i class="fa fa-comments-o"></i> 最新通知
-                        </h3>
-                        <small><i class="fa fa-tim"></i> 您当前有10条未读信息</small>
-                    </div>
-                </div>
-                <div id="tab-3" class="tab-pane">
-
-                    <div class="sidebar-title">
-                        <h3>
-                            <i class="fa fa-cube"></i> 最新任务
-                        </h3>
-                        <small><i class="fa fa-tim"></i> 您当前有14个任务，10个已完成</small>
-                    </div>
-                </div>*/-->
             </div>
 
         </div>

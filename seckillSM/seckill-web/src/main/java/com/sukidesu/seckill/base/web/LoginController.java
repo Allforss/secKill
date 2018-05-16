@@ -1,15 +1,14 @@
 package com.sukidesu.seckill.base.web;
 
+import com.sukidesu.common.common.Constants.Constants;
 import com.sukidesu.seckill.base.common.annotation.Log;
 import com.sukidesu.seckill.base.common.constants.RedisConstants;
 import com.sukidesu.seckill.base.common.exception.BizException;
 import com.sukidesu.seckill.base.domain.Menu;
-import com.sukidesu.seckill.base.domain.Role;
 import com.sukidesu.seckill.base.domain.User;
 import com.sukidesu.seckill.base.enums.LoginUserTypeEnum;
 import com.sukidesu.seckill.base.model.UserModel;
 import com.sukidesu.seckill.base.service.MenuService;
-import com.sukidesu.seckill.base.service.RoleService;
 import com.sukidesu.seckill.base.service.UserService;
 import com.sukidesu.seckill.base.shiro.AuthcToken;
 import com.sukidesu.seckill.base.shiro.ShiroUtil;
@@ -24,7 +23,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import java.util.List;
-
 
 
 /**
@@ -87,7 +85,17 @@ public class LoginController extends BaseController {
     @RequestMapping("index")
     public String index(Model model) {
         User currentUser = ShiroUtil.getCurrentUser();
-        model.addAttribute("currentUser", new UserModel(currentUser));
+        UserModel userModel = null;
+        if(null == currentUser){//如果未登录则默认为游客号
+            AuthcToken token = new AuthcToken(Constants.TRAVELER, "123", null, LoginUserTypeEnum.sso);
+            userService.login(token);
+            currentUser = ShiroUtil.getCurrentUser();
+            userModel = new UserModel(currentUser);
+        }else{
+            userModel = new UserModel(currentUser);
+        }
+        model.addAttribute("currentUser", userModel);
+
         Session session = ShiroUtil.getCurrentSession();
 
         List<Menu> menus = (List<Menu>) session.getAttribute(RedisConstants.CURRENT_USER_MENU_KEY);

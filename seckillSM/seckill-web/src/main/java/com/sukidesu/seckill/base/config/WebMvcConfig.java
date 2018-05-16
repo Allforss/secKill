@@ -1,11 +1,13 @@
 package com.sukidesu.seckill.base.config;
 
+import com.sukidesu.seckill.base.shiro.TravelerCheckFilter;
 import org.apache.shiro.authz.AuthorizationException;
 import org.springframework.boot.context.embedded.EmbeddedServletContainerCustomizer;
 import org.springframework.boot.web.servlet.ErrorPage;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
@@ -18,6 +20,12 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/static/**").addResourceLocations("classpath:/static/");
+    }
+
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+        registry.addInterceptor(new TravelerCheckFilter()).addPathPatterns("/**");
+        super.addInterceptors(registry);
     }
 
     /**
@@ -45,5 +53,4 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
                     error500Page);
         });
     }
-
 }

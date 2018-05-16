@@ -50,7 +50,7 @@ public class AuthcRealm extends AuthorizingRealm {
         User user = ShiroUtil.getCurrentUser();
         SimpleAuthorizationInfo authorizationInfo = new SimpleAuthorizationInfo();
         authorizationInfo.setRoles(user.getRoleIds());
-        Set<String> permCodes;
+        Set<String> permCodes = null;
         if (user.getRoleCodes().contains("admin")) {
             permCodes = menuService.findList(null).stream().map(Menu::getPerms).filter(code -> !StringUtils.isEmpty(code)).collect(Collectors.toSet());
         } else {

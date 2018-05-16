@@ -26,6 +26,15 @@ public class Constants {
 
 	public static final String ORDER_BY_SO_CREATETIME_DESC = "so.FstrCreateTime DESC";
 
+	public static final String TRAVERER_USER_ID = "2";
+
+	public static final String USER_INFO_KEY = "login:user:info";
+
+	public static final String TRAVELER = "traveler";
+
+	public static final String TRAVELER_URL = "/web/seckill/home;/web/seckill/order;/web/seckill/detail";
+
+
 	/**
 	 * 空字符串 ""
 	 */
@@ -198,8 +207,13 @@ public class Constants {
 	 * 秒杀redis相关常量
 	 */
 	public static final class SeckillRedis{
+
 		public static final String SECKILL_PREFIX = "seckill:goodsId:";
+
+		public static final String GOOGS_NUMBER = "seckill:goodsNumber:";
+
 	}
+
 
 
 }

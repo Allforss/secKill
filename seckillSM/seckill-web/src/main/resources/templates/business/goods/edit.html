@@ -42,9 +42,9 @@
 						</div>
 						<div class="form-group">
 							<label class="col-sm-3 control-label">秒杀开始时间：</label>
-							<div class="col-sm-6" id="datepicker1">
-								<input type="text" class="form-control" id="startTime"
-									   th:value="${goods.startTime}" placeholder="开始日期"/>
+							<div class="col-sm-6">
+								<input type="text" name="startTime" class="form-control" id="startTime"
+									   th:value="${#dates.format(goods.startTime,'yyyy-MM-dd HH:mm')}" placeholder="开始日期"/>
 								<!--<span class="input-group-addon">-->
                     				<!--<span class="glyphicon glyphicon-calendar"></span>-->
                 				<!--</span>-->
@@ -52,9 +52,9 @@
 						</div>
 						<div class="form-group">
 							<label class="col-sm-3 control-label">秒杀结束时间：</label>
-							<div class="col-sm-6" id="datepicker2">
-								<input type="text" class="form-control" id="endTime"
-									   th:value="${goods.endTime}" placeholder="结束日期"/>
+							<div class="col-sm-6">
+								<input type="text" name="endTime" class="form-control" id="endTime"
+									   th:value="${#dates.format(goods.endTime,'yyyy-MM-dd HH:mm')}" placeholder="结束日期"/>
 								<!--<span class="input-group-addon">-->
                     				<!--<span class="glyphicon glyphicon-calendar"></span>-->
                 				<!--</span>-->
@@ -63,7 +63,7 @@
 
 						<div class="form-group">
 							<div class="col-sm-8 col-sm-offset-3">
-								<button type="submit" class="btn btn-primary">提交</button>
+								<button type="button" class="btn btn-primary" onclick="editOnSubmit()">提交</button>
 							</div>
 						</div>
 					</form>

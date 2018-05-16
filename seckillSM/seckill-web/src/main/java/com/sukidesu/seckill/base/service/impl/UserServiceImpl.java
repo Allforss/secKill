@@ -2,6 +2,7 @@ package com.sukidesu.seckill.base.service.impl;
 
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
+import com.sukidesu.common.common.Constants.Constants;
 import com.sukidesu.seckill.base.common.constants.RedisConstants;
 import com.sukidesu.seckill.base.common.errorenums.SystemErrorEnum;
 import com.sukidesu.seckill.base.common.exception.BizException;
@@ -16,6 +17,7 @@ import com.sukidesu.seckill.base.service.UserService;
 import com.sukidesu.seckill.base.shiro.AuthcToken;
 import com.sukidesu.seckill.base.shiro.ShiroUtil;
 import com.sukidesu.seckill.base.utils.IdGenerator;
+import com.sukidesu.seckill.base.utils.PasswordUtil;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.subject.Subject;
@@ -58,6 +60,12 @@ public class UserServiceImpl implements UserService {
         try {
             subject.login(token);
             User loginUser = this.getByAccount(token.getPrincipal().toString());
+            String pwd = PasswordUtil.createUserPwd(new String(token.getPassword()));
+            if(!Constants.TRAVELER.equals(loginUser.getAccount())){
+                if(!pwd.equals(loginUser.getPassword())){
+                    throw new IncorrectCredentialsException();
+                }
+            }
             loginUser.setRoles(roleService.findByUserId(Long.valueOf(loginUser.getUserId())));
             loginUser.setRoleCodes(loginUser.getRoles().stream().map(Role::getCode).filter(code -> !StringUtils.isEmpty(code)).collect(Collectors.toSet()));
             ShiroUtil.updateCurrentUser(loginUser);

@@ -27,7 +27,7 @@ function save() {
         type: "POST"
     }).done(function () {
         xy.infox("success!");
-        alert("success");
+        // alert("success");
         // window.parent.location.reload();
         window.location.href="/login";
     });

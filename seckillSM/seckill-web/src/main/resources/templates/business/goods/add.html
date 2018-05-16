@@ -2,6 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
 <head>
     <th:block th:include="include :: header"/>
+    <th:block th:include="include :: datetime_header"/>
 </head>
 <body class="gray-bg">
 <div class="wrapper wrapper-content ">
@@ -9,88 +10,53 @@
         <div class="col-sm-12">
             <div class="ibox float-e-margins">
                 <div class="ibox-content">
-                    <form class="form-horizontal m-t" id="signupForm">
+                    <form class="form-horizontal m-t" id="addForm">
                         <div class="form-group">
-                            <div class="col-sm-8 col-sm-offset-5">
-                                <h3>新用户注册</h3>
-                            </div>
-                        </div>
-                        <input id="userId" name="userId" type="hidden">
-                        <div class="form-group">
-                            <label class="col-sm-4 control-label">姓名：</label>
-                            <div class="col-sm-4">
-                                <input id="name" name="name" class="form-control" type="text">
+                            <label class="col-sm-3 control-label">商品名：</label>
+                            <div class="col-sm-6">
+                                <input id="name" name="name" class="form-control" type="text" />
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-sm-4 control-label">用户名：</label>
-                            <div class="col-sm-4">
-                                <input id="account" name="account" class="form-control"
-                                       type="text">
+                            <label class="col-sm-3 control-label">库存：</label>
+                            <div class="col-sm-6">
+                                <input id="number" name="number" class="form-control" type="text" />
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-sm-4 control-label">密码：</label>
-                            <div class="col-sm-4">
-                                <input id="password" name="password" class="form-control"
-                                       type="password">
+                            <label class="col-sm-3 control-label">价格（￥）：</label>
+                            <div class="col-sm-6">
+                                <input id="price" name="price" class="form-control" type="text" />
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-sm-4 control-label">确认密码：</label>
-                            <div class="col-sm-4">
-                                <input id="confirm_password" name="confirm_password" class="form-control"
-                                       type="password">
+                            <label class="col-sm-3 control-label">商品描述：</label>
+                            <div class="col-sm-6">
+                                <input id="description" name="description" class="form-control" type="text" />
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-sm-4 control-label">E-mail：</label>
-                            <div class="col-sm-4">
-                                <input id="email" name="email" class="form-control"
-                                       type="email">
+                            <label class="col-sm-3 control-label">秒杀开始时间：</label>
+                            <div class="col-sm-6">
+                                <input type="text" name="startTime" class="form-control" id="startTime" placeholder="开始日期"/>
+                                <!--<span class="input-group-addon">-->
+                                <!--<span class="glyphicon glyphicon-calendar"></span>-->
+                                <!--</span>-->
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-sm-4 control-label">电话号码：</label>
-                            <div class="col-sm-4">
-                                <input id="userPhone" name="userPhone" class="form-control"
-                                       type="text">
+                            <label class="col-sm-3 control-label">秒杀结束时间：</label>
+                            <div class="col-sm-6">
+                                <input type="text" name="endTime" class="form-control" id="endTime" placeholder="结束日期"/>
+                                <!--<span class="input-group-addon">-->
+                                <!--<span class="glyphicon glyphicon-calendar"></span>-->
+                                <!--</span>-->
                             </div>
                         </div>
+
                         <div class="form-group">
-                            <label class="col-sm-4 control-label">地址：</label>
-                            <div class="col-sm-4">
-                                <input id="address" name="address" class="form-control"
-                                       type="text">
-                            </div>
-                        </div>
-                        <!--<div class="form-group">-->
-                            <!--<label class="col-sm-3 control-label">状态：</label>-->
-                            <!--<div class="col-sm-8">-->
-                                <!--<label class="radio-inline">-->
-                                    <!--<input type="radio" name="status" checked value="1"/> 正常-->
-                                <!--</label>-->
-                                <!--<label class="radio-inline">-->
-                                    <!--<input type="radio" name="status" value="0"/> 禁用-->
-                                <!--</label>-->
-                            <!--</div>-->
-                        <!--</div>-->
-                        <input type="hidden" name="state" value="1"/>
-                        <input type="hidden" name="roleIds" id="roleIds" value="2">
-                        <input type="hidden" name="role" id="role" value="normal">
-                        <!--<div class="form-group">-->
-                            <!--<label class="col-sm-3 control-label">角色：</label>-->
-                            <!--<div class="col-sm-8">-->
-                                <!--&lt;!&ndash;/*@thymesVar id="roles" type="java.util.List<com.alice.pet.base.domain.Role>"*/&ndash;&gt;-->
-                                <!--<label th:each="role : ${roles}" class="checkbox-inline">-->
-                                    <!--<input th:name="role" type="checkbox" th:value="${role.id}"-->
-                                           <!--th:text="${role.name}">-->
-                                <!--</label>-->
-                            <!--</div>-->
-                        <!--</div>-->
-                        <div class="form-group">
-                            <div class="col-sm-8 col-sm-offset-5">
-                                <button type="submit" class="btn btn-primary">提交</button>
+                            <div class="col-sm-8 col-sm-offset-3">
+                                <button type="button" class="btn btn-primary" onclick="addOnSubmit()">提交</button>
                             </div>
                         </div>
                     </form>
@@ -101,6 +67,7 @@
 
 </div>
 <th:block th:include="include :: footer"/>
-<script type="text/javascript" th:src="@{/static/js/appjs/sys/user/add.js}"></script>
+<th:block th:include="include :: datetime_footer"/>
+<script type="text/javascript" th:src="@{/static/js/appjs/business/goods/add.js}"></script>
 </body>
 </html>

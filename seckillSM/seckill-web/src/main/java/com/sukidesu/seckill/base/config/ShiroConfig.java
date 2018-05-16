@@ -203,6 +203,7 @@ public class ShiroConfig {
         chainDefinition.addPathDefinition("/metrics/**", "anon");
         chainDefinition.addPathDefinition("/health/**", "anon");
 
+        chainDefinition.addPathDefinition("/index","anon");
         chainDefinition.addPathDefinition("/error/**", "anon");
         chainDefinition.addPathDefinition("/login", "anon");
         chainDefinition.addPathDefinition("/adminLogin", "anon");
@@ -282,7 +283,7 @@ public class ShiroConfig {
         proxy.setTargetBeanName("shiroFilter");
         proxy.setTargetFilterLifecycle(true);
         filterRegistrationBean.setFilter(proxy);
-//        filterRegistrationBean.setDispatcherTypes(DispatcherType.REQUEST, DispatcherType.FORWARD, DispatcherType.INCLUDE, DispatcherType.ERROR);
+        //        filterRegistrationBean.setDispatcherTypes(DispatcherType.REQUEST, DispatcherType.FORWARD, DispatcherType.INCLUDE, DispatcherType.ERROR);
         return filterRegistrationBean;
     }
 

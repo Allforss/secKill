@@ -7,6 +7,7 @@ import com.sukidesu.common.common.utils.CustomJsonDateDeserializer;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDateTime;
 import java.util.Date;
@@ -39,11 +40,13 @@ public class SeckillGoods {
     /*秒杀开始时间*/
     @JsonFormat(pattern = Constants.DateFormat.YYYY_MM_DD_HH24_MI_SS,timezone = Constants.TimeZone.ASIA_SHANGHAI )
     @JsonDeserialize(using = CustomJsonDateDeserializer.class)
+    @DateTimeFormat(pattern = Constants.DateFormat.YYYY_MM_DD_HH24_MI_SS)
     private Date startTime;
 
     /*秒杀结束时间*/
     @JsonFormat(pattern = Constants.DateFormat.YYYY_MM_DD_HH24_MI_SS,timezone = Constants.TimeZone.ASIA_SHANGHAI )
     @JsonDeserialize(using = CustomJsonDateDeserializer.class)
+    @DateTimeFormat(pattern = Constants.DateFormat.YYYY_MM_DD_HH24_MI_SS)
     private Date endTime;
 
     /*创建时间*/

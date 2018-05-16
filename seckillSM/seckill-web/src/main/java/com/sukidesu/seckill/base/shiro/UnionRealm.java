@@ -89,7 +89,8 @@ public class UnionRealm extends AuthorizingRealm {
      *                                 realm-specific authentication logic for the specified <tt>token</tt>
      */
     @Override
-    protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException {
+    protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token)
+            throws AuthenticationException {
         String account = token.getPrincipal().toString();
         User user = userService.getBasicForLogin(account);
         if (UserStateEnum.DISABLED.state == user.getState()) {

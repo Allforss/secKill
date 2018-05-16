@@ -10,9 +10,11 @@ import com.sukidesu.seckill.base.common.page.PageList;
 import com.sukidesu.seckill.base.model.MessageBean;
 import com.sukidesu.seckill.base.shiro.ShiroUtil;
 import com.sukidesu.seckill.base.web.BaseController;
+import com.sukidesu.seckill.business.redis.GoodsNumberRedis;
 import com.sukidesu.seckill.business.service.SeckillService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -33,6 +35,9 @@ import java.util.Date;
 public class WebController extends BaseController{
 
     private static final String ORDERBY = Constants.ORDER_BY_CREATETIME_DESC;
+
+    @Autowired
+    private GoodsNumberRedis goodsNumberRedis;
 
     @Autowired
     private SeckillService seckillService;
@@ -94,6 +99,10 @@ public class WebController extends BaseController{
         }
         if(null == md5){
             return new SeckillResult<SeckillExecution>(false, "md5值为空");
+        }
+        boolean flag = goodsNumberRedis.reduceGoodsNumber(goodsId);
+        if(!flag){
+            return new SeckillResult<SeckillExecution>(false,"对不起，该商品已被抢光！");
         }
         SeckillResult<SeckillExecution> result = seckillService.execute(goodsId, userId, md5);
         log.info("execute 出参：result={}",result);
