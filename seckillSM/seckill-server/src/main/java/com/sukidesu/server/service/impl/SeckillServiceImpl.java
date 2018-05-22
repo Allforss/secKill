@@ -2,7 +2,6 @@ package com.sukidesu.server.service.impl;
 
 import com.github.pagehelper.Page;
 import com.sukidesu.common.common.enums.SeckillStateEnum;
-import com.sukidesu.common.common.page.PageList;
 import com.sukidesu.common.common.utils.MD5Util;
 import com.sukidesu.common.domain.SeckillGoods;
 import com.sukidesu.common.domain.SeckillOrder;
@@ -152,7 +151,7 @@ public class SeckillServiceImpl implements SeckillService {
 
     private void logSeckillTime(Date startKillTime){
         Date endKillTime = new Date();
-        log.info("秒杀事务耗时（ms）：{}",endKillTime.getTime() - startKillTime.getTime());
+        log.info("--------------秒杀事务耗时（ms）：{}",endKillTime.getTime() - startKillTime.getTime());
     }
 
 }

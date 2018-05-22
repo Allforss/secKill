@@ -1,12 +1,14 @@
 package com.sukidesu.seckill.business.controller;
 
 import com.sukidesu.common.common.Constants.Constants;
+import com.sukidesu.common.common.enums.SeckillStateEnum;
 import com.sukidesu.common.domain.SeckillGoods;
 import com.sukidesu.common.dto.Exposer;
 import com.sukidesu.common.dto.PageDTO;
 import com.sukidesu.common.dto.SeckillExecution;
 import com.sukidesu.common.dto.SeckillResult;
 import com.sukidesu.seckill.base.common.page.PageList;
+import com.sukidesu.seckill.base.domain.User;
 import com.sukidesu.seckill.base.model.MessageBean;
 import com.sukidesu.seckill.base.shiro.ShiroUtil;
 import com.sukidesu.seckill.base.web.BaseController;
@@ -14,7 +16,6 @@ import com.sukidesu.seckill.business.redis.GoodsNumberRedis;
 import com.sukidesu.seckill.business.service.SeckillService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -91,6 +92,11 @@ public class WebController extends BaseController{
     @ResponseBody
     public SeckillResult<SeckillExecution> execute(Long goodsId, String userId, String md5){
         log.info("execute入参：goodsId={},userId={},md5={}",goodsId,userId,md5);
+        User currentUser = ShiroUtil.getCurrentUser();
+//        if(!userId.equals(currentUser.getUserId())){//如果当前用户id和传入参数不一致则返回数据被篡改
+//            SeckillExecution execution = new SeckillExecution(goodsId, SeckillStateEnum.DATA_REWRITE);
+//            return new SeckillResult<SeckillExecution>(true, execution);
+//        }
         if(null == goodsId){
             return new SeckillResult<SeckillExecution>(false, "商品id为空");
         }
@@ -100,11 +106,17 @@ public class WebController extends BaseController{
         if(null == md5){
             return new SeckillResult<SeckillExecution>(false, "md5值为空");
         }
-        boolean flag = goodsNumberRedis.reduceGoodsNumber(goodsId);
+        boolean flag = goodsNumberRedis.trafficLimit(goodsId, userId);
+        log.info("是否允许通过={}",flag);
         if(!flag){
-            return new SeckillResult<SeckillExecution>(false,"对不起，该商品已被抢光！");
+            SeckillExecution execution = new SeckillExecution(goodsId, SeckillStateEnum.NOT_ALLOWED);
+            return new SeckillResult<SeckillExecution>(true, execution);
         }
-        SeckillResult<SeckillExecution> result = seckillService.execute(goodsId, userId, md5);
+        SeckillResult<SeckillExecution> result = seckillService.executeByProducer(goodsId, userId, md5);
+        String stateInfo = result.getData().getStateInfo();
+        if(result.isSuccess() && SeckillStateEnum.SUCCESS.getStateInfo().equals(stateInfo)){
+            goodsNumberRedis.reduceGoodsNumber(goodsId, userId);
+        }
         log.info("execute 出参：result={}",result);
         return result;
     }

@@ -11,6 +11,8 @@ public enum SeckillStateEnum {
 	REPEAT_KILL(-1,"重复秒杀"),
 	INNER_ERROR(-2,"系统异常"),
 	DATA_REWRITE(-3,"数据被篡改"),
+	NOT_ALLOWED(-4,"不符合秒杀条件"),
+	REQUEST_TIMEOUT(-5,"请求超时"),
 	;
 	private int state;
 	

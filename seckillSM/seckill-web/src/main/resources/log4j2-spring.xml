@@ -23,7 +23,7 @@
     		 -->
     		<!-- local -->
 		<!--<property name="ROOTPATH">/home/log</property>-->
-		<property name="ROOTPATH">D:/workspace/logs/seckill-server</property>
+		<property name="ROOTPATH">D:/workspace/logs/seckill-web</property>
     </properties>
 	<appenders>
 		<CONSOLE name="CONSOLE" target="SYSTEM_OUT">

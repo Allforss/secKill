@@ -9,7 +9,7 @@
         <encoder>
             <pattern>${FILE_LOG_PATTERN}</pattern>
         </encoder>
-        <file>D:/workspace/logs/server-web/seckill.log</file>
+        <file>D:/workspace/logs/seckill-server/seckill.log</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <!-- daily rollover -->
             <fileNamePattern>../logs/seckill.%d{yyyy-MM-dd}.log</fileNamePattern>

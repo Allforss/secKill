@@ -208,9 +208,13 @@ public class Constants {
 	 */
 	public static final class SeckillRedis{
 
+        public static final Long EXPIRE_TIME = 24l;
+
 		public static final String SECKILL_PREFIX = "seckill:goodsId:";
 
 		public static final String GOOGS_NUMBER = "seckill:goodsNumber:";
+
+		public static final String SECKILL_ALREAD_KILLED = "seckill:alread:killed:";
 
 	}
 

@@ -98,12 +98,15 @@ public class SeckillController {
             log.info("出参 execution={}",execution);
             return new SeckillResult<SeckillExecution>(true, execution);
         } catch (RepeatSeckillException e) {
+            log.info("executeByProcedure 异常：{}",e.getMessage());
             SeckillExecution execution = new SeckillExecution(goodsId, SeckillStateEnum.REPEAT_KILL);
             return  new SeckillResult<SeckillExecution>(true, execution);
         } catch (SeckillCloseException e) {
+            log.info("executeByProcedure 异常：{}",e.getMessage());
             SeckillExecution execution = new SeckillExecution(goodsId, SeckillStateEnum.END);
             return new SeckillResult<SeckillExecution>(true, execution);
         } catch (Exception e) {
+            log.info("executeByProcedure 异常：{}",e.getMessage());
             SeckillExecution execution = new SeckillExecution(goodsId, SeckillStateEnum.INNER_ERROR);
             return new SeckillResult<SeckillExecution>(true, execution);
         }
@@ -122,15 +125,19 @@ public class SeckillController {
             order.setCreateTime(LocalDateTime.now());
             order.setUpdateTime(LocalDateTime.now());
             order.setOrderState(OrderStateEnum.SUCCESS.getState());
-            SeckillExecution  execution = seckillService.executeSeckillByProcedure(order, md5);
+            SeckillExecution execution = seckillService.executeSeckillByProcedure(order, md5);
+            log.info("出参 execution={}",execution);
             return new SeckillResult<SeckillExecution>(true, execution);
         } catch (RepeatSeckillException e) {
+            log.info("executeByProcedure 异常：{}",e.getMessage());
             SeckillExecution execution = new SeckillExecution(goodsId, SeckillStateEnum.REPEAT_KILL);
             return  new SeckillResult<SeckillExecution>(true, execution);
         } catch (SeckillCloseException e) {
+            log.info("executeByProcedure 异常：{}",e.getMessage());
             SeckillExecution execution = new SeckillExecution(goodsId, SeckillStateEnum.END);
             return new SeckillResult<SeckillExecution>(true, execution);
         } catch (Exception e) {
+            log.info("executeByProcedure 异常：{}",e.getMessage());
             SeckillExecution execution = new SeckillExecution(goodsId, SeckillStateEnum.INNER_ERROR);
             return new SeckillResult<SeckillExecution>(true, execution);
         }

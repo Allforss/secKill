@@ -31,7 +31,7 @@ var seckill={
 					//绑定一次点击事件,防止用户重复点击
 					$('#killBtn').one("click",function(){
 						//先禁用按钮
-						$(this).addClass('dissabled');
+						$(this).addClass('disabled');
 						$.post(killUrl,{},function(result){
 							console.log("result:"+result);
 							if(result && result['success']){

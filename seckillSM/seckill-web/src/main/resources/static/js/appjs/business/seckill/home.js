@@ -18,7 +18,7 @@ function load() {
         // formatSearch: function () {
         //     return "搜索商品名";
         // },
-        showRefresh: false,
+        showRefresh: true,
         // showToggle: true,
         showColumns: false,
         showExport: false,

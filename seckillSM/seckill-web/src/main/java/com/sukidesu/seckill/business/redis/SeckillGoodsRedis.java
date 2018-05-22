@@ -1,4 +1,4 @@
-package com.sukidesu.server.redis;
+package com.sukidesu.seckill.business.redis;
 
 import com.alibaba.fastjson.JSON;
 import com.sukidesu.common.common.Constants.Constants;

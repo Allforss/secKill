@@ -6,6 +6,7 @@ import com.sukidesu.common.domain.SeckillGoods;
 import com.sukidesu.common.dto.PageDTO;
 import com.sukidesu.seckill.base.model.MessageBean;
 import com.sukidesu.seckill.base.web.BaseController;
+import com.sukidesu.seckill.business.redis.SeckillGoodsRedis;
 import com.sukidesu.seckill.business.service.GoodsService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +31,9 @@ public class GoodsController extends BaseController{
 
     @Autowired
     private GoodsService goodsService;
+
+    @Autowired
+    private SeckillGoodsRedis goodsRedis;
 
     @GetMapping("/list")
     public String toAdminGoodsList(){
@@ -84,6 +88,10 @@ public class GoodsController extends BaseController{
     @ResponseBody
     public SeckillGoods queryOne(SeckillGoods goods){
         log.info("GoodsController.queryOne 入参：goods={}",goods);
+        SeckillGoods redisGoods = goodsRedis.getSeckillGoods(goods.getGoodsId());
+        if(null != redisGoods){
+            return redisGoods;
+        }
         return goodsService.queryOne(goods);
     }
 
